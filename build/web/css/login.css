@@ -1,0 +1,155 @@
+.container-fluid {
+    min-height: 100vh;
+    height: fit-content;
+    background-color: #12121250;
+}
+
+body {
+    background-image: url(../Assets/bg_login.png);
+    background-color: #121212;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.row.header {
+    position: relative;
+    min-height: 70px;
+}
+
+.row.header img {
+    width: 180px;
+}
+
+.row.body {
+    min-height: calc(100vh - 70px);
+}
+
+.row.body .info {
+    padding: 0;
+}
+
+.row.body .login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.row.body .login .data {
+    height: 90%;
+    width: 90%;
+    background: rgb(0 0 0 / 25%);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgb(0 0 0 / 10%);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgb(19 19 19 / 30%);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    padding: 24px 0px;
+}
+
+.row.body .login .data .form {
+    margin: 0;
+    padding: 12px;
+    display: flex;
+    width: 100%;
+}
+
+.row.body .login .data .title {
+    margin: 0;
+    padding-left: 27px;
+    display: flex;
+    color: white;
+    width: 100%;
+    padding-bottom: 46px;
+}
+
+.row.body .login .data .form form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input-custom {
+    background-color: #272727;
+    border-radius: 50px 50px 50px 50px;
+    border-style: solid;
+    border-color: transparent;
+    transition: all 0.2s ease-out;
+    width: 90%;
+    margin-bottom: 12px;
+    color: #B0B0B0;
+    height: 40px;
+    padding: 12px;
+}
+
+.input-custom:focus {
+    transition: all 0.2s ease-out;
+    border: double 2px transparent;
+    border-radius: 50px;
+    background-image: linear-gradient(#272727, #272727), radial-gradient( circle farthest-corner at 10.2% 55.8%, #53aaf9 0%, #1d59b9 90.1%);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+}
+
+.btn-grad {
+    background-image: radial-gradient( circle farthest-corner at 10% 20%, #53aaf9 0.1%, #1d59b9 99.8%);
+    margin-top: 12px;
+    width: 60%;
+    padding: 15px 45px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    opacity: 0.3;
+    border-radius: 50px;
+    display: block;
+}
+
+.btn-grad:hover {
+    opacity: 1;
+    background-position: right center;
+    text-decoration: none;
+}
+
+:focus {
+    outline: 0;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+.row.body .login .data .sign-up {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    color: white;
+    margin-top: 50px;
+}
+
+.row.body .login .data .sign-up #btn-to-signup {
+    color: #53aaf9;
+    transition: 0.5s;
+    cursor: pointer
+}
+
+.row.body .login .data .sign-up #btn-to-signup:hover {
+    color: #1d59b9;
+    transition: 0.5s;
+}
+
+@media (max-width: 768px) {
+    .row.body .info {
+        display: none;
+    }
+    .row.body .login .data .title {
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        padding-left: 0px;
+        color: white;
+        width: 100%;
+    }
+}

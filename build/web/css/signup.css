@@ -1,0 +1,122 @@
+.container-fluid {
+    min-height: 100vh;
+    background-color: #121212cf;
+}
+
+body {
+    background-image: url(../Assets/mockup.jpg);
+    background-size: cover;
+    font-family: 'Roboto', sans-serif;
+}
+
+.row.sign-up {
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+}
+
+.col-sign-up {
+    position: relative;
+    padding: 24px 58px;
+}
+
+.div-sign-up {}
+
+.logo {
+    padding: 12px 0 12px 0;
+    position: absolute;
+    bottom: 20px;
+    left: 39px;
+    color: #3881d9;
+}
+
+.div-sign-up {
+    border-radius: 12px;
+    background-color: white;
+    height: 100%;
+    padding: 48px;
+}
+
+.logo img {
+    width: 150px;
+}
+
+.title-sign-up {
+    color: #13283B;
+}
+
+.title-sign-up h1 {
+    font-weight: 700;
+    margin: 0;
+    padding: 12px 12px;
+}
+
+.input-custom {
+    border: 0;
+    border-bottom: solid 1px #eaeaea;
+    transition: border-color .13s ease-in-out, box-shadow .13s ease-in-out, -webkit-box-shadow .13s ease-in-out;
+}
+
+.divs-input span {
+    display: block;
+    font-weight: 400;
+    margin-bottom: 10px;
+    font-size: 12px;
+}
+
+.form-custom .row {
+    margin-bottom: 20px;
+}
+
+.divs-input input {
+    width: 100%;
+}
+
+.input-custom:focus {
+    transition: border-color .13s ease-in-out, box-shadow .13s ease-in-out, -webkit-box-shadow .13s ease-in-out;
+    border: 0;
+    border-bottom: solid 2px #53aaf9;
+}
+
+.title {
+    color: white;
+    display: flex;
+    justify-content: center;
+}
+
+:focus {
+    outline: 0;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+@media (max-width: 768px) {
+    .div-sign-up {
+        border-radius: 0px;
+        background-color: white;
+        height: 100%;
+    }
+    body {
+        background-position-x: center;
+    }
+    .banner {
+        display: none;
+    }
+    .logo {
+        padding: 12px 0 12px 0;
+        position: absolute;
+        bottom: 0;
+        left: 39px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .col-sign-up {
+        position: relative;
+        padding: 0 12px;
+    }
+    .logo img {
+        width: 100px;
+    }
+}
