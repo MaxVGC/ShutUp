@@ -21,7 +21,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <div class="row container-divs">
             <div class="col-md-5 container-form">
                 <div class="container-main-form">
-                    <form action="" class="form-custom">
+                    <form action="../RegisterUser" method="POST" class="form-custom">
                         <div class="row title-sign-up">
                             <h1>Crea tu cuenta</h1>
                             <span>¿Ya tienes una cuenta?</span>
@@ -30,37 +30,37 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         <div class="row">
                             <div class="col-md-6 divs-input">
                                 <span>Nombre</span>
-                                <input type="text" class="input-custom">
+                                <input type="text" name="Name" class="input-custom" required/>
                             </div>
                             <div class="col-md-6 divs-input">
-                                <span>Apellidos</span>
-                                <input type="text" class="input-custom">
+                                <span>Apellido</span>
+                                <input type="text" name="Lastname" class="input-custom" required/>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12 divs-input">
                                 <span>Dirección de correo electrónico</span>
-                                <input type="text" class="input-custom">
+                                <input type="email" name="Email" class="input-custom" required/>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 divs-input">
                                 <span>Nombre de usuario</span>
-                                <input type="text" class="input-custom">
+                                <input type="text" name="Username" class="input-custom" required/>
                             </div>
                             <div class="col-md-6 divs-input">
                                 <span>Contraseña</span>
-                                <input type="text" class="input-custom">
+                                <input type="password" name="Password" minlength="8" class="input-custom" required/>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12 divs-input">
                                 <span>Numero de telefono</span>
-                                <input type="text" class="input-custom">
+                                <input type="number" name="PhoneNumber" class="input-custom" required/>
                             </div>
                         </div>
                         <div class="row row-btn" style="margin: 0;">
-                            <input type="submit" class="btn-grad" value="Crear cuenta">
+                            <input type="submit" class="btn-grad" value="Crear cuenta" required/>
                         </div>
                     </form>
                 </div>

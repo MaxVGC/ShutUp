@@ -12,7 +12,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <link rel="icon" href="../Assets/favicon (1).ico" sizes="16x16" type="image/vnd.microsoft.icon">
     <link rel="stylesheet" href="../css/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="../css/login.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="../Js/bootstrap/bootstrap.min.js"></script>
+    <script src="../Js/login.js" defer></script>
 </head>
 
 <body>
@@ -30,9 +32,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         <h1 style="width: auto;">¿Entramos?</h1>
                     </div>
                     <div class="row form">
-                        <form action="">
-                            <input type="text" class=" input-custom" placeholder="Correo, nickname o Shut id" aria-label="Username">
-                            <input type="password" class=" input-custom" placeholder="Contraseña" aria-label="Password">
+                        <form action="../ValidateUser" method="post">
+                            <input type="text" class=" input-custom" name="Principal" placeholder="Correo, nickname o Shut id" aria-label="Username">
+                            <input type="password" class=" input-custom" name="Password" placeholder="Contraseña" aria-label="Password">
                             <input type="submit" class="btn-grad" value="¡Vamos!">
                         </form>
                     </div>

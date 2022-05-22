@@ -4,9 +4,33 @@
         <servlet-name>prueba</servlet-name>
         <servlet-class>prueba</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RegistrarUsuario</servlet-name>
+        <servlet-class>Servlets.RegistrarUsuario</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RegisterUser</servlet-name>
+        <servlet-class>Servlets.RegisterUser</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ValidateUser</servlet-name>
+        <servlet-class>Servlets.ValidateUser</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>prueba</servlet-name>
         <url-pattern>/prueba</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RegistrarUsuario</servlet-name>
+        <url-pattern>/RegistrarUsuario</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RegisterUser</servlet-name>
+        <url-pattern>/RegisterUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ValidateUser</servlet-name>
+        <url-pattern>/ValidateUser</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

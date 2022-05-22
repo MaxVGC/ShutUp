@@ -97,7 +97,7 @@ body {
     background-image: radial-gradient( circle farthest-corner at 10% 20%, #53aaf9 0.1%, #1d59b9 99.8%);
     margin-top: 12px;
     width: 60%;
-    padding: 15px 45px;
+    padding: 15px 0px;
     text-align: center;
     text-transform: uppercase;
     transition: 0.5s;
@@ -126,6 +126,7 @@ body {
     display: flex;
     justify-content: center;
     color: white;
+    text-align: center;
     margin-top: 50px;
 }
 
@@ -141,8 +142,14 @@ body {
 }
 
 @media (max-width: 768px) {
+    body {
+        background-position-x: center;
+    }
     .row.body .info {
         display: none;
+    }
+    .row.body .login .data .sign-up {
+        flex-direction: column;
     }
     .row.body .login .data .title {
         margin: 0;

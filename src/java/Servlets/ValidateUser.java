@@ -2,7 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
+package Servlets;
 
+import Clases.Users;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,7 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author carlo
  */
-public class prueba extends HttpServlet {
+public class ValidateUser extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -28,8 +30,21 @@ public class prueba extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            out.println("sus");
+        Users u = new Users();
+        u.setUsername(request.getParameter("Principal"));
+        u.setShutId(request.getParameter("Principal"));
+        u.setEmail(request.getParameter("Principal"));
+        u.setPassword(request.getParameter("Password"));
+        if (u.existUser()) {
+            if (u.isValidPassword()) {
+                System.out.println("Entre");
+                response.sendRedirect("Pages/home.html");
+            } else {
+                response.sendRedirect("Pages/login.html?alert=1");
+            }
+        } else {
+            response.sendRedirect("Pages/login.html?alert=2");
+
         }
     }
 

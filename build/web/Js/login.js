@@ -1,8 +1,18 @@
-const login = document.getElementById("login");
-const btn_to_signup = document.getElementById("btn-to-signup");
+let params = new URLSearchParams(location.search);
 
-btn_to_signup.addEventListener("click", changeForm);
+$(document).ready(() => {
+    var contract = params.get('alert');
+    switch (contract) {
+        case '0':
+            alert('Usuario creado correctamente');
+            break;
+        case '1':
+            alert('Contraseña incorrecta');
+            break;
+        case '2':
+            alert('No existe una cuenta asociada a los datos ingresados')
+            break;
+    }
+});
 
-function changeForm() {
-    login.style.display = "none";
-}
+var aux = document.getElementById
