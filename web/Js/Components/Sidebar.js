@@ -1,4 +1,6 @@
 var flag = 0;
+var flag_pos = 0;
+var top_x = 0;
 
 function Sidebar() {
   const [iconState, changeClass] = React.useState({
@@ -13,6 +15,7 @@ function Sidebar() {
       icon: 'accessibility'
     }]
   });
+  let refs = React.useRef();
 
   function toogleActive(index) {
     changeClass({ ...iconState,
@@ -34,15 +37,21 @@ function Sidebar() {
     }
   }
 
-  return /*#__PURE__*/React.createElement("ul", null, iconState.objects.map((elements, icon) => /*#__PURE__*/React.createElement("li", {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("ul", null, iconState.objects.map((elements, icon) => /*#__PURE__*/React.createElement("li", {
     className: toogleStyles(icon),
     key: icon
   }, /*#__PURE__*/React.createElement("ion-icon", {
+    ref: icon == 0 ? refs : null,
     name: elements.icon,
-    onClick: () => {
-      toogleActive(icon);
+    onClick: e => {
+      toogleActive(icon), top_x = e.target.offsetTop;
     }
-  }))));
+  }))), /*#__PURE__*/React.createElement("div", {
+    id: "marker",
+    style: {
+      top: top_x
+    }
+  })));
 }
 
 export default Sidebar;

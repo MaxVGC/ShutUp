@@ -31,4 +31,10 @@ a:hover {
         border-top: solid 1px #1d1d1d;
         bottom: 0;
     }
+    .sidebar-custom ul {
+        display: flex;
+    }
+    .sidebar-custom ul li {
+        margin: 0px 15px;
+    }
 }

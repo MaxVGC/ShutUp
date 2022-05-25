@@ -18,3 +18,49 @@ ul li.active {
     color: #595959;
     transition: 0.5s;
 }
+
+.sidebar-custom ul #marker {
+    position: absolute;
+    left: -20px;
+    top: 0;
+    transition: 0.5s;
+    z-index: 1;
+}
+
+.sidebar-custom ul #marker::before {
+    transition: 0.5s;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 40px;
+    border-radius: 8px;
+    background: blue;
+    box-shadow: 0 0 15px blue, 0 0 30px blue;
+}
+
+ul li:nth-child(1).active~#marker::before {
+    transition: 0.5s;
+    background: red;
+    box-shadow: 0 0 15px red, 0 0 30px red;
+}
+
+ul li:nth-child(2).active~#marker::before {
+    transition: 0.5s;
+    background: blue;
+    box-shadow: 0 0 15px blue, 0 0 30px blue;
+}
+
+ul li:nth-child(3).active~#marker::before {
+    transition: 0.5s;
+    background: yellow;
+    box-shadow: 0 0 15px yellow, 0 0 30px yellow;
+}
+
+ul li:nth-child(4).active~#marker::before {
+    transition: 0.5s;
+    background: greenyellow;
+    box-shadow: 0 0 15px greenyellow, 0 0 30px greenyellow;
+}
