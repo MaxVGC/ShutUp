@@ -1,8 +1,12 @@
-var flag = 0;
+import Context from '../Context.js';
 var top_x = '46%';
 
 function Sidebar() {
   let refs = React.useRef();
+  const {
+    state,
+    actions
+  } = React.useContext(Context);
 
   const handleResize = () => {
     var aux = document.querySelector("ul li.active");
@@ -33,23 +37,23 @@ function Sidebar() {
 
   function toogleActive(index, e) {
     top_x = e.target.offsetTop;
+    actions({
+      type: 'setState',
+      payload: { ...state,
+        value: iconState.objects[index].icon
+      }
+    });
     changeClass({ ...iconState,
       activeObject: iconState.objects[index]
     });
   }
 
   function toogleStyles(index) {
-    // if (index == 0 && flag == 0) {
-    //   iconState.activeObject = iconState.objects[0];
-    //   flag = 1;
-    //   return "active";
-    // } else {
     if (iconState.objects[index] == iconState.activeObject) {
       return "active";
     } else {
       return "inactive";
-    } //}
-
+    }
   }
 
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
@@ -82,4 +86,16 @@ function Sidebar() {
   }))));
 }
 
-export default Sidebar;
+export default Sidebar; // function toogleStyles(index) {
+//   // if (index == 0 && flag == 0) {
+//   //   iconState.activeObject = iconState.objects[0];
+//   //   flag = 1;
+//   //   return "active";
+//   // } else {
+//   if (iconState.objects[index] == iconState.activeObject) {
+//     return "active";
+//   } else {
+//     return "inactive";
+//   }
+//   //}
+// }
