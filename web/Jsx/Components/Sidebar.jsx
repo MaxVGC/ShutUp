@@ -1,7 +1,19 @@
 var flag = 0;
-var flag_pos=0;
-var top_x=0;
+var top_x = '46%';
 function Sidebar() {
+
+  let refs = React.useRef();
+
+  const handleResize = () => {
+    var aux = document.querySelector("ul li.active");
+    if (aux != null) {
+      if (window.matchMedia("(orientation: landscape)").matches) {
+        document.getElementById("marker").style.top = aux.offsetTop + "px";
+        document.getElementById("marker").style.left = '-20px';
+      }
+    }
+  }
+
   const [iconState, changeClass] = React.useState({
     activeObject: null,
     objects: [{
@@ -15,37 +27,49 @@ function Sidebar() {
     }]
   })
 
-  let refs = React.useRef();
+  React.useEffect(() => {
+    window.addEventListener("resize", handleResize, false);
+  }, []);
 
-  function toogleActive(index) {
+  function toogleActive(index, e) {
+    top_x = e.target.offsetTop;
     changeClass({ ...iconState, activeObject: iconState.objects[index] });
   }
 
   function toogleStyles(index) {
-    if (index == 0 && flag == 0) {
-      iconState.activeObject = iconState.objects[0];
-      flag = 1;
+    // if (index == 0 && flag == 0) {
+    //   iconState.activeObject = iconState.objects[0];
+    //   flag = 1;
+    //   return "active";
+    // } else {
+    if (iconState.objects[index] == iconState.activeObject) {
       return "active";
     } else {
-      if (iconState.objects[index] == iconState.activeObject) {
-        return "active";
-      } else {
-        return "inactive";
-      }
+      return "inactive";
     }
+    //}
   }
 
   return (
     <>
-      <ul>{
-        iconState.objects.map((elements, icon) => (
-          <li className={toogleStyles(icon)} key={icon}>
-            <ion-icon ref={icon==0?refs:null} name={elements.icon} onClick={(e) => { toogleActive(icon), top_x = e.target.offsetTop }}></ion-icon>
-          </li>
-        ))}
-        <div id="marker" style={{ top: top_x }}></div>
-      </ul>
-
+      <div className="sidebar-custom">
+        <div className="sidebar-logo">
+          <img src="../Assets/Logotipo.svg" alt="Sus" />
+        </div>
+        <div className="sidebar-buttons">
+          <ul>{
+            iconState.objects.map((elements, icon) => (
+              <li className={toogleStyles(icon)} key={icon}>
+                <ion-icon name={elements.icon} onClick={(e) => { toogleActive(icon, e) }}></ion-icon>
+              </li>
+            ))}
+            <div id="marker" ref={refs} style={{ top: top_x }}></div>
+          </ul>
+        </div>
+        <div className="sidebar-logout">
+          <ion-icon name="log-out-outline"></ion-icon>
+        </div>
+      </div>
     </>
   )
 }

@@ -1,4 +1,5 @@
 @import url(./Components/sidebar.css);
+@import url(./Components/Container/Container.css);
 .container-fluid {
     position: relative;
     height: 100vh;

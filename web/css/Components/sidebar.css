@@ -19,6 +19,30 @@ ul li.active {
     transition: 0.5s;
 }
 
+.sidebar-custom .sidebar-logo,
+.sidebar-custom .sidebar-logout {
+    width: 80px;
+    height: 80px;
+    font-size: 30px;
+    display: flex;
+    color: #2c2c2c;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar-custom .sidebar-logo img {
+    height: 30px;
+    width: 30px;
+}
+
+.sidebar-custom .sidebar-buttons {
+    width: 80px;
+    height: calc(100% - 160px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .sidebar-custom ul #marker {
     position: absolute;
     left: -20px;
@@ -37,8 +61,7 @@ ul li.active {
     width: 50px;
     height: 40px;
     border-radius: 8px;
-    background: blue;
-    box-shadow: 0 0 15px blue, 0 0 30px blue;
+    background: #595959;
 }
 
 ul li:nth-child(1).active~#marker::before {
@@ -55,12 +78,40 @@ ul li:nth-child(2).active~#marker::before {
 
 ul li:nth-child(3).active~#marker::before {
     transition: 0.5s;
-    background: yellow;
-    box-shadow: 0 0 15px yellow, 0 0 30px yellow;
+    background: purple;
+    box-shadow: 0 0 15px purple, 0 0 30px purple;
 }
 
 ul li:nth-child(4).active~#marker::before {
     transition: 0.5s;
     background: greenyellow;
     box-shadow: 0 0 15px greenyellow, 0 0 30px greenyellow;
+}
+
+@media (max-height:490px) {
+    .sidebar-custom .sidebar-logo,
+    .sidebar-custom .sidebar-logout {
+        display: none;
+    }
+}
+
+@media (orientation:portrait) {
+    .sidebar-buttons {
+        height: 50px!important;
+        width: calc(100% - 100px)!important;
+    }
+    .sidebar-custom {
+        flex-direction: row!important;
+        overflow-y: hidden;
+    }
+    .sidebar-custom .sidebar-logo,
+    .sidebar-custom .sidebar-logout {
+        height: 50px;
+        width: 50px;
+    }
+    ul li {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 }

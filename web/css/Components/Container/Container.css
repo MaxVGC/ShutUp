@@ -1,0 +1,15 @@
+.Container_Main {
+    position: absolute;
+    height: 100vh;
+    width: calc(100% - 80px);
+    left: 80px;
+}
+
+@media (orientation:portrait) {
+    .Container_Main {
+        position: absolute;
+        height: calc(100% - 50px);
+        width: 100%;
+        left: 0px;
+    }
+}
