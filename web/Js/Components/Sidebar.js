@@ -4,7 +4,7 @@ var top_x = '46%';
 function Sidebar() {
   let refs = React.useRef();
   const {
-    state,
+    container,
     actions
   } = React.useContext(Context);
 
@@ -38,8 +38,8 @@ function Sidebar() {
   function toogleActive(index, e) {
     top_x = e.target.offsetTop;
     actions({
-      type: 'setState',
-      payload: { ...state,
+      type: 'setContainer',
+      payload: { ...container,
         value: iconState.objects[index].icon
       }
     });

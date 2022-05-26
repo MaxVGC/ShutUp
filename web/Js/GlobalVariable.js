@@ -1,5 +1,5 @@
 const useGlobal = () => {
-  const [state, setState] = React.useState({
+  const [container, setContainer] = React.useState({
     value: 'none'
   });
 
@@ -10,8 +10,8 @@ const useGlobal = () => {
     } = action;
 
     switch (type) {
-      case 'setState':
-        return setState(payload);
+      case 'setContainer':
+        return setContainer(payload);
 
       default:
         return state;
@@ -19,7 +19,7 @@ const useGlobal = () => {
   };
 
   return {
-    state,
+    container,
     actions
   };
 };

@@ -6,7 +6,7 @@ function Sidebar() {
   
   let refs = React.useRef();
 
-  const {state,actions}=React.useContext(Context);
+  const {container,actions}=React.useContext(Context);
 
   const handleResize = () => {
     var aux = document.querySelector("ul li.active");
@@ -37,7 +37,7 @@ function Sidebar() {
 
   function toogleActive(index, e) {
     top_x = e.target.offsetTop;
-    actions({type:'setState',payload:{...state,value:iconState.objects[index].icon}})
+    actions({type:'setContainer',payload:{...container,value:iconState.objects[index].icon}})
     changeClass({ ...iconState, activeObject: iconState.objects[index] });
   }
 
