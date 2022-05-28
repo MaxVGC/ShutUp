@@ -12,6 +12,9 @@ $(document).ready(() => {
         case '2':
             alert('No existe una cuenta asociada a los datos ingresados')
             break;
+        case '3':
+            alert('Ya hay una sesion activa')
+            break;
     }
 });
 

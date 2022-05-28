@@ -6,7 +6,6 @@ package Servlets;
 
 import Clases.Users;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,11 +35,18 @@ public class ValidateUser extends HttpServlet {
         u.setEmail(request.getParameter("Principal"));
         u.setPassword(request.getParameter("Password"));
         if (u.existUser()) {
-            if (u.isValidPassword()) {
-                System.out.println("Entre");
-                response.sendRedirect("Pages/home.html");
-            } else {
-                response.sendRedirect("Pages/login.html?alert=1");
+            int flag = u.isValidPassword();
+            switch (flag) {
+                case 1:
+                    u.connect();
+                    response.sendRedirect("Pages/home.html");
+                    break;
+                case 0:
+                    response.sendRedirect("Pages/login.html?alert=1");
+                    break;
+                case 2:
+                    response.sendRedirect("Pages/login.html?alert=3");
+                    break;
             }
         } else {
             response.sendRedirect("Pages/login.html?alert=2");

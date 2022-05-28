@@ -150,20 +150,30 @@ public class Users extends BaseDeDatos {
     }
 
     /**
-     * Verifica si la contraseña es valida
+     * Verifica si la contraseña es valida y valida si esta online
+     * @return 
      */
-    public boolean isValidPassword() {
+    public int isValidPassword() {
         try {
-            ResultSet f = executeQuery("SELECT \"Password\" from public.\"Users\" where (\"Username\"='" + this.getUsername() + "'or \"ShutId\"='" + this.getShutId() + "' or \"Email\"='" + this.getEmail() + "' or \"PhoneNumber\"='" + this.getPhoneNumber() + "') and \"Password\"='" + this.getPassword() + "'");
+            ResultSet f = executeQuery("SELECT S.\"CurrentState\" , U.\"ShutId\" from public.\"Users\" U,public.\"State\" S where U.\"ShutId\"=S.\"ShutId\" and (U.\"Username\"='" + this.getUsername() + "'or U.\"ShutId\"='" + this.getShutId() + "' or U.\"Email\"='" + this.getEmail() + "' or U.\"PhoneNumber\"='" + this.getPhoneNumber() + "') and U.\"Password\"='" + this.getPassword() + "'");
             if (f.next()) {
-                return true;
+                if(f.getString(1).equals("Disconnected") || f.getString(1).equals("Created") ){
+                    this.setShutId(f.getString(2));
+                    return 1;
+                }else{
+                    return 2;
+                }
             } else {
-                return false;
+                return 0;
             }
         } catch (SQLException ex) {
             Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
+            return 0;
         }
+    }
+    
+    public void connect(){
+        execute("UPDATE public.\"State\" SET \"CurrentState\"='Online' WHERE \"ShutId\"='"+this.ShutId+"'");
     }
 
     @Override
