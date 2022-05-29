@@ -4,7 +4,11 @@
  */
 package Servlets;
 
-import Clases.Users;
+
+import com.mongodb.ConnectionString;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoDatabase;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -15,7 +19,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author carlo
  */
-public class RegisterUser extends HttpServlet {
+public class Prueba extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,19 +33,11 @@ public class RegisterUser extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        Users u = new Users();
-        u.setUsername(request.getParameter("Username"));
-        u.setName(request.getParameter("Name"));
-        u.setLastname(request.getParameter("Lastname"));
-        u.setEmail(request.getParameter("Email"));
-        u.setPassword(request.getParameter("Password"));
-        u.setPhoneNumber(request.getParameter("PhoneNumber"));
-        if (!u.existUser()) {
-            u.insertUser();
-            response.sendRedirect("Pages/login.html?alert=0");
-        } else {
-            response.sendRedirect("Pages/signup.html?alert=0");
-        }
+        ConnectionString connectionString = new ConnectionString("mongodb+srv://MaxVGC:pkmn3612@shutup.wwg62fe.mongodb.net/?retryWrites=true&w=majority");
+        MongoClient mongoClient = MongoClients.create(connectionString);
+        MongoDatabase database = mongoClient.getDatabase("ShutUp");
+        System.out.println(database.getCollection("Friends").find().first());
+        mongoClient.close();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

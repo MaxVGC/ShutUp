@@ -4,16 +4,21 @@
  */
 package Clases;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.or;
+import java.io.IOException;
+import org.bson.Document;
 
 /**
  *
  * @author carlo
  */
-public class Users extends BaseDeDatos {
+public class Users extends MongoDB {
 
     private String ShutId;
     private String Username;
@@ -21,11 +26,7 @@ public class Users extends BaseDeDatos {
     private String Name;
     private String Lastname;
     private String Email;
-    private Long PhoneNumber;
-
-    public Users() {
-
-    }
+    private String PhoneNumber;
 
     public String getShutId() {
         return ShutId;
@@ -91,11 +92,11 @@ public class Users extends BaseDeDatos {
         this.Email = Address;
     }
 
-    public Long getPhoneNumber() {
+    public String getPhoneNumber() {
         return PhoneNumber;
     }
 
-    public void setPhoneNumber(Long PhoneNumber) {
+    public void setPhoneNumber(String PhoneNumber) {
         this.PhoneNumber = PhoneNumber;
     }
 
@@ -121,59 +122,60 @@ public class Users extends BaseDeDatos {
      * Verifica si existe el usuario en la base de datos
      */
     public boolean existUser() {
-        try {
-            System.out.println(this.toString());
-            ResultSet f = executeQuery("SELECT \"ShutId\" from public.\"Users\" where \"Username\"='" + this.getUsername() + "'or \"ShutId\"='" + this.getShutId() + "' or \"Email\"='" + this.getEmail() + "' or \"PhoneNumber\"='" + this.getPhoneNumber() + "'");
-            if (f.next()) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
+        Document doc = find("Users", or(eq("Username", this.getUsername()), eq("ShutId", this.getShutId()), eq("Email", this.getEmail()), eq("PhoneNumber", this.getPhoneNumber())));
+        if (doc != null) {
+            return true;
+        } else {
             return false;
         }
     }
 
     /**
-     * Inserta el usuario en la base de datos
-     * Establece un estado por defecto para el usuario
+     * Inserta el usuario en la base de datos Establece un estado por defecto
+     * para el usuario
      */
     public void insertUser() {
-        this.ShutId = generateShutId();
-        execute("INSERT INTO public.\"Users\"(\n"
-                + "	\"ShutId\", \"Username\", \"Password\", \"Name\", \"Lastname\", \"Email\", \"PhoneNumber\")\n"
-                + "	VALUES ('" + this.getShutId() + "', '" + this.getUsername() + "', '" + this.getPassword() + "', '" + this.getName() + "', '" + this.getLastname() + "', '" + this.getEmail() + "', " + this.getPhoneNumber() + ")");
-        execute("INSERT INTO public.\"State\"(\n"
-                + "	\"ShutId\", \"CurrentState\", \"LastUpdate\")\n"
-                + "	VALUES ('"+this.getShutId()+"', 'Created', now())");
+        Document a = Document.parse(this.documentJSON());
+        insert("Users", a);
     }
 
     /**
      * Verifica si la contraseña es valida y valida si esta online
-     * @return 
+     *
+     * @return
      */
     public int isValidPassword() {
-        try {
-            ResultSet f = executeQuery("SELECT S.\"CurrentState\" , U.\"ShutId\" from public.\"Users\" U,public.\"State\" S where U.\"ShutId\"=S.\"ShutId\" and (U.\"Username\"='" + this.getUsername() + "'or U.\"ShutId\"='" + this.getShutId() + "' or U.\"Email\"='" + this.getEmail() + "' or U.\"PhoneNumber\"='" + this.getPhoneNumber() + "') and U.\"Password\"='" + this.getPassword() + "'");
-            if (f.next()) {
-                if(f.getString(1).equals("Disconnected") || f.getString(1).equals("Created") ){
-                    this.setShutId(f.getString(2));
-                    return 1;
-                }else{
-                    return 2;
-                }
-            } else {
-                return 0;
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
-            return 0;
-        }
+//        try {
+//            ResultSet f = executeQuery("SELECT S.\"CurrentState\" , U.\"ShutId\" from public.\"Users\" U,public.\"State\" S where U.\"ShutId\"=S.\"ShutId\" and (U.\"Username\"='" + this.getUsername() + "'or U.\"ShutId\"='" + this.getShutId() + "' or U.\"Email\"='" + this.getEmail() + "' or U.\"PhoneNumber\"='" + this.getPhoneNumber() + "') and U.\"Password\"='" + this.getPassword() + "'");
+//            if (f.next()) {
+//                if (f.getString(1).equals("Disconnected") || f.getString(1).equals("Created")) {
+//                    this.setShutId(f.getString(2));
+//                    return 1;
+//                } else {
+//                    return 2;
+//                }
+//            } else {
+//                return 0;
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
+//            return 0;
+//        }
+        return 0;
     }
-    
-    public void connect(){
-        execute("UPDATE public.\"State\" SET \"CurrentState\"='Online' WHERE \"ShutId\"='"+this.ShutId+"'");
+
+    public void connect() {
+//        execute("UPDATE public.\"State\" SET \"CurrentState\"='Online' WHERE \"ShutId\"='" + this.ShutId + "'");
+    }
+
+    public String documentJSON() {
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Users.class, new UserAdapter());
+        builder.setPrettyPrinting();
+        Gson gson = builder.create();
+        this.setShutId(generateShutId());
+        final String json = gson.toJson(this);
+        return json;
     }
 
     @Override
@@ -181,4 +183,32 @@ public class Users extends BaseDeDatos {
         return "Users{ Username=" + Username + ", Password=" + Password + ", Name=" + Name + ", Lastname=" + Lastname + ", Email=" + Email + ", PhoneNumber=" + PhoneNumber + '}';
     }
 
+}
+
+class UserAdapter extends TypeAdapter<Users> {
+
+    @Override
+    public void write(JsonWriter writer, Users user) throws IOException {
+        writer.beginObject();
+        writer.name("ShutId");
+        writer.value(user.getShutId());
+        writer.name("Username");
+        writer.value(user.getUsername());
+        writer.name("Password");
+        writer.value(user.getPassword());
+        writer.name("Name");
+        writer.value(user.getName());
+        writer.name("Lastname");
+        writer.value(user.getLastname());
+        writer.name("Email");
+        writer.value(user.getEmail());
+        writer.name("PhoneNumber");
+        writer.value(user.getPhoneNumber());
+        writer.endObject();
+    }
+
+    @Override
+    public Users read(JsonReader reader) throws IOException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

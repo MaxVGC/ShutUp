@@ -8,6 +8,14 @@
         <servlet-name>ValidateUser</servlet-name>
         <servlet-class>Servlets.ValidateUser</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Prueba</servlet-name>
+        <servlet-class>Servlets.Prueba</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Prueba2</servlet-name>
+        <servlet-class>Prueba.Prueba2</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterUser</servlet-name>
         <url-pattern>/RegisterUser</url-pattern>
@@ -15,6 +23,14 @@
     <servlet-mapping>
         <servlet-name>ValidateUser</servlet-name>
         <url-pattern>/ValidateUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Prueba</servlet-name>
+        <url-pattern>/Prueba</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Prueba2</servlet-name>
+        <url-pattern>/Prueba2</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
