@@ -24,6 +24,10 @@
         <servlet-name>SendFriendRequest</servlet-name>
         <servlet-class>Servlets.SendFriendRequest</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>getFriends</servlet-name>
+        <servlet-class>Servlets.getFriends</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterUser</servlet-name>
         <url-pattern>/RegisterUser</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>SendFriendRequest</servlet-name>
         <url-pattern>/SendFriendRequest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getFriends</servlet-name>
+        <url-pattern>/getFriends</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

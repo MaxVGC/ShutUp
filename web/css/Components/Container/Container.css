@@ -71,18 +71,33 @@
 .Container_Home .friend-container .friends {
     padding: 10px;
     margin: 0;
+    display: flex;
+    flex-direction: row;
 }
 
 .Container_Home .friend-container .friends .card-friend {
     margin: 0;
     height: 100px;
     width: 100px;
+    border-radius: 20px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    background-size: cover;
+}
+
+.Container_Home .friend-container .friends .card-friend ion-icon {
+    color: yellowgreen;
+    margin-right: -20px;
+    margin-bottom: -6px;
+    width: 30px;
+    height: 30px;
 }
 
 .Container_Home .friend-container .friends .add-friend {
     height: 100px;
     width: 100px;
-    border-radius: 20px 20px 20px 20px;
+    border-radius: 20px;
     color: rgba(255, 255, 255, 0.10);
     display: flex;
     align-items: center;

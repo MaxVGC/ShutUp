@@ -1,7 +1,23 @@
 import AddFriendComponent from "./AddFriendComponent.js";
+var users = {
+  friends: []
+};
+
+async function getUsers() {
+  let response = await fetch("http://localhost:8080/ShutUp/getFriends?shutid=" + window.localStorage.getItem("ShutId"));
+  let myJson = await response.json();
+  users = myJson;
+}
 
 function FriendsComponent() {
   const [addFriendDiv, setVisibleAddFriendDiv] = React.useState(false);
+  const [friendsData, setFriendsData] = React.useState(false);
+  React.useEffect(() => {
+    getUsers();
+    setTimeout(function () {
+      setFriendsData(true);
+    }, 2000);
+  }, []);
 
   function setVisibleAddFriend_Div() {
     if (addFriendDiv) {
@@ -29,7 +45,24 @@ function FriendsComponent() {
   }), addFriendDiv ? /*#__PURE__*/React.createElement(AddFriendComponent, {
     addFriendDiv: addFriendDiv,
     setVisibleAddFriendDiv: setVisibleAddFriendDiv
-  }) : null)));
+  }) : null), friendsData ? users.friends.map((elements, key) => /*#__PURE__*/React.createElement("div", {
+    className: "card-friend",
+    style: {
+      marginLeft: '12px',
+      backgroundImage: 'url(/Assets/photo.jpg)'
+    },
+    key: key
+  }, elements.CurrentState != "Online" ? /*#__PURE__*/React.createElement("ion-icon", {
+    name: "radio-button-on"
+  }) : /*#__PURE__*/React.createElement("ion-icon", {
+    name: "radio-button-on"
+  }))) : /*#__PURE__*/React.createElement("img", {
+    src: "/Assets/loading.svg",
+    style: {
+      width: '100px',
+      height: '100px'
+    }
+  })));
 }
 
 export default FriendsComponent;

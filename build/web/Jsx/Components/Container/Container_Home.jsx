@@ -10,7 +10,7 @@ var clima = {
 
 if (navigator.geolocation) {
     //navigator.geolocation.getCurrentPosition();
-    navigator.geolocation.getCurrentPosition(getWeather);
+    //navigator.geolocation.getCurrentPosition(getWeather);
 }
 
 async function getWeather(position) {
