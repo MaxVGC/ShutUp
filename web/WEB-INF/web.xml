@@ -16,6 +16,14 @@
         <servlet-name>Prueba2</servlet-name>
         <servlet-class>Prueba.Prueba2</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SearchUsers</servlet-name>
+        <servlet-class>Servlets.SearchUsers</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SendFriendRequest</servlet-name>
+        <servlet-class>Servlets.SendFriendRequest</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterUser</servlet-name>
         <url-pattern>/RegisterUser</url-pattern>
@@ -31,6 +39,14 @@
     <servlet-mapping>
         <servlet-name>Prueba2</servlet-name>
         <url-pattern>/Prueba2</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchUsers</servlet-name>
+        <url-pattern>/SearchUsers</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SendFriendRequest</servlet-name>
+        <url-pattern>/SendFriendRequest</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -4,8 +4,9 @@
  */
 package Servlets;
 
-import Clases.Users;
+import Clases.PostgresDB;
 import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,7 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author carlo
  */
-public class RegisterUser extends HttpServlet {
+public class SendFriendRequest extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,18 +30,13 @@ public class RegisterUser extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        Users u = new Users();
-        u.setUsername(request.getParameter("Username"));
-        u.setName(request.getParameter("Name").toLowerCase());
-        u.setLastname(request.getParameter("Lastname").toLowerCase());
-        u.setEmail(request.getParameter("Email").toLowerCase());
-        u.setPassword(request.getParameter("Password"));
-        u.setPhoneNumber(request.getParameter("PhoneNumber"));
-        if (!u.existUser()) {
-            u.insertUser();
-            response.sendRedirect("Pages/login.html?alert=0");
-        } else {
-            response.sendRedirect("Pages/signup.html?alert=0");
+        try ( PrintWriter out = response.getWriter()) {
+            PostgresDB pDB = new PostgresDB();
+            String from = request.getParameter("from");
+            String to = request.getParameter("to");
+            String sql="INSERT INTO public.\"Friends\"(\"Id\", \"ShutId_1\", \"ShutId_2\", \"AcceptedRequest\", \"From\") VALUES (DEFAULT, '%from%', '%to%', false, '%from%')";
+            sql=sql.replace("%from%",from).replace("%to%", to);
+            pDB.execute(sql);
         }
     }
 

@@ -1,8 +1,6 @@
 {
-    "ShutId": "MAX3612",
-    "Friends": [{
-        "ShutId": "XZC0434"
-    }, {
-        "ShutId": "XHU0852"
-    }]
+    "friends": [{ "Name": "Andres", "Lastname": "Marles", "ShutId": "XHU0852", "Username": "maxvgc3614", "AcceptedRequest": true },
+        { "Name": "Fabian Santiago", "Lastname": "Muñoz Salazar", "ShutId": "XZC0434", "Username": "Pastore2729", "AcceptedRequest": false }
+    ],
+    "notFriends": [{ "Name": "Prueba", "Lastname": "Prueba", "ShutId": "LFB2167", "Username": "prueba" }]
 }

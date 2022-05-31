@@ -4,21 +4,20 @@
  */
 package Clases;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import static com.mongodb.client.model.Filters.eq;
-import static com.mongodb.client.model.Filters.or;
 import java.io.IOException;
-import org.bson.Document;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author carlo
  */
-public class Users extends MongoDB {
+public class Users extends PostgresDB {
 
     private String ShutId;
     private String Username;
@@ -122,60 +121,58 @@ public class Users extends MongoDB {
      * Verifica si existe el usuario en la base de datos
      */
     public boolean existUser() {
-        Document doc = find("Users", or(eq("Username", this.getUsername()), eq("ShutId", this.getShutId()), eq("Email", this.getEmail()), eq("PhoneNumber", this.getPhoneNumber())));
-        if (doc != null) {
-            return true;
-        } else {
+        try {
+            System.out.println(this.toString());
+            ResultSet f = executeQuery("SELECT \"ShutId\" from public.\"Users\" where \"Username\"='" + this.getUsername() + "'or \"ShutId\"='" + this.getShutId() + "' or \"Email\"='" + this.getEmail() + "' or \"PhoneNumber\"='" + this.getPhoneNumber() + "'");
+            if (f.next()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
 
     /**
-     * Inserta el usuario en la base de datos Establece un estado por defecto
-     * para el usuario
+     * Inserta el usuario en la base de datos
+     * Establece un estado por defecto para el usuario
      */
     public void insertUser() {
-        Document a = Document.parse(this.documentJSON());
-        insert("Users", a);
+        this.ShutId = generateShutId();
+        execute("INSERT INTO public.\"Users\"(\n"
+                + "	\"ShutId\", \"Username\", \"Password\", \"Name\", \"Lastname\", \"Email\", \"PhoneNumber\")\n"
+                + "	VALUES ('" + this.getShutId() + "', '" + this.getUsername() + "', '" + this.getPassword() + "', '" + this.getName() + "', '" + this.getLastname() + "', '" + this.getEmail() + "', " + this.getPhoneNumber() + ")");
+        execute("INSERT INTO public.\"State\"(\n"
+                + "	\"ShutId\", \"CurrentState\", \"LastUpdate\")\n"
+                + "	VALUES ('"+this.getShutId()+"', 'Created', now())");
     }
 
     /**
-     * Verifica si la contraseña es valida y valida si esta online
-     *
-     * @return
+     * Verifica si la contraseña es valida
      */
     public int isValidPassword() {
-//        try {
-//            ResultSet f = executeQuery("SELECT S.\"CurrentState\" , U.\"ShutId\" from public.\"Users\" U,public.\"State\" S where U.\"ShutId\"=S.\"ShutId\" and (U.\"Username\"='" + this.getUsername() + "'or U.\"ShutId\"='" + this.getShutId() + "' or U.\"Email\"='" + this.getEmail() + "' or U.\"PhoneNumber\"='" + this.getPhoneNumber() + "') and U.\"Password\"='" + this.getPassword() + "'");
-//            if (f.next()) {
-//                if (f.getString(1).equals("Disconnected") || f.getString(1).equals("Created")) {
-//                    this.setShutId(f.getString(2));
-//                    return 1;
-//                } else {
-//                    return 2;
-//                }
-//            } else {
-//                return 0;
-//            }
-//        } catch (SQLException ex) {
-//            Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
-//            return 0;
-//        }
-        return 0;
+        try {
+            ResultSet f = executeQuery("SELECT S.\"CurrentState\" , U.\"ShutId\" from public.\"Users\" U,public.\"State\" S where U.\"ShutId\"=S.\"ShutId\" and (U.\"Username\"='" + this.getUsername() + "'or U.\"ShutId\"='" + this.getShutId() + "' or U.\"Email\"='" + this.getEmail() + "' or U.\"PhoneNumber\"='" + this.getPhoneNumber() + "') and U.\"Password\"='" + this.getPassword() + "'");
+            if (f.next()) {
+                if(f.getString(1).equals("Disconnected") || f.getString(1).equals("Created") ){
+                    this.setShutId(f.getString(2));
+                    return 1;
+                }else{
+                    return 2;
+                }
+            } else {
+                return 0;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
+            return 0;
+        }
     }
-
-    public void connect() {
-//        execute("UPDATE public.\"State\" SET \"CurrentState\"='Online' WHERE \"ShutId\"='" + this.ShutId + "'");
-    }
-
-    public String documentJSON() {
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Users.class, new UserAdapter());
-        builder.setPrettyPrinting();
-        Gson gson = builder.create();
-        this.setShutId(generateShutId());
-        final String json = gson.toJson(this);
-        return json;
+    
+    public void connect(){
+        execute("UPDATE public.\"State\" SET \"CurrentState\"='Online' WHERE \"ShutId\"='"+this.ShutId+"'");
     }
 
     @Override
@@ -186,7 +183,6 @@ public class Users extends MongoDB {
 }
 
 class UserAdapter extends TypeAdapter<Users> {
-
     @Override
     public void write(JsonWriter writer, Users user) throws IOException {
         writer.beginObject();

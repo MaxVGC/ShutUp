@@ -80,7 +80,6 @@
 }
 
 .Container_Home .friend-container .friends .add-friend {
-    font-size: 3.5em;
     height: 100px;
     width: 100px;
     border-radius: 20px 20px 20px 20px;
@@ -92,9 +91,111 @@
     transition: 0.5s;
 }
 
+.Container_Home .friend-container .friends .add-friend ion-icon {
+    font-size: 3.5em;
+}
+
 .Container_Home .friend-container .friends .add-friend:hover {
     color: rgba(255, 255, 255, 0.50);
     transition: 0.5s;
+}
+
+.Container_Home .addFriendDivComponent {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: rgba(18, 18, 18, 0.90);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.Container_Home .addFriendDivComponent .main {
+    width: 40vw;
+    background-color: #272727;
+    border-radius: 10px;
+    padding: 12px;
+    transition: 0.5s;
+    min-width: 376px;
+}
+
+.Container_Home .addFriendDivComponent .main .search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.Container_Home .addFriendDivComponent .main .search-bar input {
+    border-style: solid;
+    border-color: transparent;
+    background-color: transparent;
+    padding: 0 20px;
+    color: white;
+    width: 90%;
+}
+
+.Container_Home .addFriendDivComponent .main .data-search {
+    max-height: 0;
+    transition: 1s;
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 -12px;
+}
+
+.Container_Home .addFriendDivComponent .main .data-search .addFriendCard {
+    height: 100px;
+    display: flex;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.Container_Home .addFriendDivComponent .main .data-search .addFriendCard .img-friend {
+    height: 100px;
+    width: 100px;
+    background-color: red;
+    clip-path: polygon(0 0, 100% 0, 50% 100%, 0% 100%);
+    transition: 0.5s;
+    background-size: cover;
+}
+
+.Container_Home .addFriendDivComponent .main .data-search .addFriendCard .img-friend:hover {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+    margin-right: 10px;
+    border-radius: 0 10px 10px 0;
+    transition: 0.5s;
+}
+
+.Container_Home .addFriendDivComponent .main .data-search .addFriendCard .data {
+    height: 100px;
+    width: calc(100% - 200px);
+}
+
+.Container_Home .addFriendDivComponent .main .data-search .addFriendCard .btn-add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    width: 100px;
+    transition: 0.5s;
+}
+
+.Container_Home .addFriendDivComponent .main .data-search .addFriendCard .btn-add:hover {
+    transition: 0.5s;
+    color: white;
+}
+
+:focus {
+    outline: 0;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
 }
 
 .Container_Chat .chats {
