@@ -1,5 +1,6 @@
 import FriendsComponent from "./Container_Home/FriendsComponent.js";
 import ProfileComponent from "./Container_Home/ProfileComponent.js";
+import NotificationComponent from "./Container_Home/NotificationComponent.js";
 var messageDay;
 var timeDay;
 var clima = {
@@ -24,7 +25,12 @@ function salute() {
   var fecha = new Date();
   var hora = fecha.getHours();
 
-  if (hora >= 0 && hora < 12) {
+  if (hora >= 0 && hora < 4) {
+    messageDay = "Buenas noches";
+    timeDay = "nightfall";
+  }
+
+  if (hora >= 4 && hora < 12) {
     messageDay = "Buenos días";
     timeDay = "sunrise";
   }
@@ -60,7 +66,7 @@ function Container_Home() {
     ref: WeatherElement,
     className: "icon-weather"
   })), /*#__PURE__*/React.createElement("div", {
-    className: "row"
+    className: "row main-content"
   }, /*#__PURE__*/React.createElement("div", {
     className: "col-md-4",
     style: {
@@ -74,8 +80,28 @@ function Container_Home() {
       padding: 0
     }
   }, /*#__PURE__*/React.createElement("div", {
+    id: "pruebaScroll",
     className: "row friend-container"
-  }, /*#__PURE__*/React.createElement(FriendsComponent, null)))));
+  }, /*#__PURE__*/React.createElement(FriendsComponent, null)), /*#__PURE__*/React.createElement("div", {
+    className: "row",
+    style: {
+      margin: 0,
+      padding: '0 10px 10px 10px',
+      height: 'calc(100% - 197px)'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "col-md-4",
+    style: {
+      padding: 0,
+      paddingRight: '5px'
+    }
+  }, /*#__PURE__*/React.createElement(NotificationComponent, null)), /*#__PURE__*/React.createElement("div", {
+    className: "col-md-8",
+    style: {
+      padding: 0,
+      paddingLeft: '5px'
+    }
+  })))));
 }
 
 export default Container_Home;

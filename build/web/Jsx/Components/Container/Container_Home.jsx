@@ -1,5 +1,6 @@
 import FriendsComponent from "./Container_Home/FriendsComponent.js";
 import ProfileComponent from "./Container_Home/ProfileComponent.js";
+import NotificationComponent from "./Container_Home/NotificationComponent.js";
 
 var messageDay;
 var timeDay;
@@ -25,7 +26,11 @@ async function getWeather(position) {
 function salute() {
     var fecha = new Date();
     var hora = fecha.getHours();
-    if (hora >= 0 && hora < 12) {
+    if (hora >= 0 && hora < 4) {
+        messageDay = "Buenas noches";
+        timeDay = "nightfall";
+    }
+    if (hora >= 4 && hora < 12) {
         messageDay = "Buenos días";
         timeDay = "sunrise";
     }
@@ -61,15 +66,23 @@ function Container_Home() {
                 <div ref={WeatherElement} className="icon-weather">
                 </div>
             </div>
-            <div className="row">
+            <div className="row main-content">
                 <div className="col-md-4" style={{ padding: 0 }}>
                     <div className="row profile-container">
                         <ProfileComponent />
                     </div>
                 </div>
                 <div className="col-md-8" style={{ padding: 0 }}>
-                    <div className="row friend-container">
+                    <div id="pruebaScroll" className="row friend-container">
                         <FriendsComponent />
+                    </div>
+                    <div className="row" style={{margin:0,padding:'0 10px 10px 10px',height:'calc(100% - 197px)'}}>
+                        <div className="col-md-4" style={{ padding: 0,paddingRight:'5px' }}>
+                        <NotificationComponent />
+                        </div>
+                        <div className="col-md-8" style={{ padding: 0,paddingLeft:'5px' }}>
+
+                        </div>
                     </div>
                 </div>
             </div>

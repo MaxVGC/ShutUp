@@ -54,10 +54,7 @@ export function Container_Chat() {
     placeholder: "Buscar conversacion"
   })), /*#__PURE__*/React.createElement("div", {
     className: "row conversations"
-  }, users.usuarios.map((elements, index) => /*#__PURE__*/React.createElement(ChatCard, {
-    key: index,
-    data: elements
-  })))), /*#__PURE__*/React.createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     className: "col-md-9 chat-window"
   })));
 }

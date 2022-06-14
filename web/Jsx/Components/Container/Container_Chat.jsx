@@ -47,11 +47,7 @@ export function Container_Chat() {
                         <input type="text" placeholder="Buscar conversacion" />
                     </div>
                     <div className="row conversations">
-                        {
-                            users.usuarios.map((elements,index)=> (
-                                <ChatCard key={index} data={elements}/>
-                            ))
-                        }
+                       
                     </div>
                 </div>
                 <div className="col-md-9 chat-window">
