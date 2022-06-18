@@ -41,7 +41,7 @@ export function Container_Chat() {
                         <h4>
                             Chats
                         </h4>
-                        <ion-icon name="add-circle-outline" onClick={console.log("ay")}></ion-icon>
+                        <ion-icon name="add-circle-outline" onClick={()=>console.log("ay")}></ion-icon>
                     </div>
                     <div className="row search-chat">
                         <input type="text" placeholder="Buscar conversacion" />

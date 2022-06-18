@@ -46,7 +46,7 @@ export function Container_Chat() {
     className: "row header"
   }, /*#__PURE__*/React.createElement("h4", null, "Chats"), /*#__PURE__*/React.createElement("ion-icon", {
     name: "add-circle-outline",
-    onClick: console.log("ay")
+    onClick: () => console.log("ay")
   })), /*#__PURE__*/React.createElement("div", {
     className: "row search-chat"
   }, /*#__PURE__*/React.createElement("input", {

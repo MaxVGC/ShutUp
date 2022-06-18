@@ -8,7 +8,7 @@ var users = {
 async function getUsers() {
     let response = await fetch("http://localhost:8080/ShutUp/getFriends?shutid=" + window.localStorage.getItem("ShutId"));
     let myJson = await response.json();
-    users = myJson;
+    return myJson;
 }
 
 
@@ -18,10 +18,10 @@ function FriendsComponent() {
 
 
     React.useEffect(() => {
-        getUsers();
-        setTimeout(function () {
+        getUsers().then(myJson => {
+            users=myJson;
             setFriendsData(true);
-        }, 2000);
+        });
     }, []);
 
 

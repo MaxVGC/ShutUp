@@ -6,17 +6,17 @@ var users = {
 async function getUsers() {
   let response = await fetch("http://localhost:8080/ShutUp/getFriends?shutid=" + window.localStorage.getItem("ShutId"));
   let myJson = await response.json();
-  users = myJson;
+  return myJson;
 }
 
 function FriendsComponent() {
   const [addFriendDiv, setVisibleAddFriendDiv] = React.useState(false);
   const [friendsData, setFriendsData] = React.useState(false);
   React.useEffect(() => {
-    getUsers();
-    setTimeout(function () {
+    getUsers().then(myJson => {
+      users = myJson;
       setFriendsData(true);
-    }, 2000);
+    });
   }, []);
 
   function setVisibleAddFriend_Div() {

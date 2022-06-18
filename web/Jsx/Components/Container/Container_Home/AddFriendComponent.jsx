@@ -10,7 +10,7 @@ var aux = false;
 async function getUsers(text) {
     let response = await fetch("http://localhost:8080/ShutUp/SearchUsers?data=" + text + "&shutid=" + window.localStorage.getItem("ShutId"));
     let myJson = await response.json();
-    users = myJson;
+    return myJson;
 }
 
 function AddFriendComponent({ addFriendDiv, setVisibleAddFriendDiv }) {
@@ -32,13 +32,12 @@ function AddFriendComponent({ addFriendDiv, setVisibleAddFriendDiv }) {
             aux = true;
             toogleresults();
             input.current.disabled = true;
-            getUsers(e.target.value);
-            setTimeout(function () {
-                console.log(users);
+            getUsers(e.target.value).then(myJson => {
+                users=myJson;
                 setQuerying(false);
                 ref.current.style.overflowY = 'auto';
                 input.current.disabled = false;
-            }, 5000);
+            });
         }
     }
 

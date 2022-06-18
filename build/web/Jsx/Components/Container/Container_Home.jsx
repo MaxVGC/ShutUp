@@ -4,23 +4,11 @@ import NotificationComponent from "./Container_Home/NotificationComponent.js";
 
 var messageDay;
 var timeDay;
-var clima = {
-    icon: '',
-    temp: ''
-};
-
-if (navigator.geolocation) {
-    //navigator.geolocation.getCurrentPosition();
-    //navigator.geolocation.getCurrentPosition(getWeather);
-}
 
 async function getWeather(position) {
-    var lat = position.coords.latitude;
-    var lon = position.coords.longitude;
-    let response = await fetch("https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&lang=es&units=metric&appid=04e83853d8074dbe2cc208386d78a2c3");
-    let myJson = await response.json();
-    clima.icon = "url('https://openweathermap.org/themes/openweathermap/assets/vendor/owm/img/widgets/" + myJson.weather[0].icon + ".png')";
-    clima.temp = Math.round(myJson.main.temp) + "° " + myJson.weather[0].description;
+    let response = await fetch("https://api.openweathermap.org/data/2.5/weather?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude + "&lang=es&units=metric&appid=04e83853d8074dbe2cc208386d78a2c3");
+    const myJson = await response.json();
+    return myJson;
 }
 
 function salute() {
@@ -53,10 +41,14 @@ function Container_Home() {
 
     React.useEffect(() => {
         ref.current.classList.add(timeDay);
-        setTimeout(function () {
-            WeatherElement.current.style.backgroundImage = clima.icon;
-            WeatherElement.current.innerHTML = clima.temp;
-        }, 1000);
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((data)=>{
+                getWeather(data).then(myJson => {
+                    WeatherElement.current.style.backgroundImage = "url('https://openweathermap.org/themes/openweathermap/assets/vendor/owm/img/widgets/" + myJson.weather[0].icon + ".png')";
+                    WeatherElement.current.innerHTML = Math.round(myJson.main.temp) + "° " + myJson.weather[0].description;
+                });
+            });
+        }
     }, []);
 
     return (
@@ -76,11 +68,11 @@ function Container_Home() {
                     <div id="pruebaScroll" className="row friend-container">
                         <FriendsComponent />
                     </div>
-                    <div className="row" style={{margin:0,padding:'0 10px 10px 10px',height:'calc(100% - 197px)'}}>
-                        <div className="col-md-4" style={{ padding: 0,paddingRight:'5px' }}>
-                        <NotificationComponent />
+                    <div className="row" style={{ margin: 0, padding: '0 10px 10px 10px', height: 'calc(100% - 197px)' }}>
+                        <div className="col-md-6" style={{ padding: 0, paddingRight: '5px' }}>
+                            <NotificationComponent />
                         </div>
-                        <div className="col-md-8" style={{ padding: 0,paddingLeft:'5px' }}>
+                        <div className="col-md-6" style={{ padding: 0, paddingLeft: '5px' }}>
 
                         </div>
                     </div>
