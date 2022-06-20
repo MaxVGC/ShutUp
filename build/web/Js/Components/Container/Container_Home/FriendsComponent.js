@@ -53,7 +53,7 @@ function FriendsComponent() {
     },
     key: key
   }, elements.CurrentState != "Online" ? /*#__PURE__*/React.createElement("ion-icon", {
-    name: "radio-button-on"
+    name: "radio-button-off"
   }) : /*#__PURE__*/React.createElement("ion-icon", {
     name: "radio-button-on"
   }))) : /*#__PURE__*/React.createElement("img", {

@@ -216,11 +216,166 @@
     padding: 10px;
     width: 100%;
     height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 .Container_Home .row.NotificationComponentMain-Title {
     padding: 0;
     margin: 0;
+}
+
+.Container_Home .row.NotificationComponentMain-Types {
+    display: flex;
+    height: fit-content;
+    flex-direction: row;
+    border-bottom: solid 0.5px #373737;
+    margin: -10px;
+    margin-top: 10px;
+    padding: 0;
+}
+
+.Container_Home .row.NotificationComponentMain-Types .type {
+    height: 30px;
+    width: auto;
+    color: #373737;
+    margin: 0 10px;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.Container_Home .row.NotificationComponentMain-Types .type.active {
+    height: 30px;
+    width: auto;
+    color: #53aaf9;
+    margin: 0 10px;
+    font-weight: 600;
+    cursor: default;
+    border-bottom: solid 2px #53aaf9;
+    transition: 0.5s;
+    box-shadow: inset 0px -11px 11px -14px #53aaf9;
+}
+
+.Container_Home .row.NotificationComponentMain-Content {
+    padding: 0px;
+    margin: 0;
+    margin-top: 10px;
+    position: absolute;
+    top: 65px;
+    width: calc(100% - 10px);
+    height: calc(100% - 76px);
+    overflow-y: scroll;
+    padding-bottom: 10px;
+}
+
+.Container_Home .row.NotificationComponentMain-Content::-webkit-scrollbar {
+    width: 10px;
+}
+
+.Container_Home .row.NotificationComponentMain-Content::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.Container_Home .row.NotificationComponentMain-Content::-webkit-scrollbar-thumb {
+    background-color: #1d59b9;
+    border-radius: 20px;
+    width: 5px;
+}
+
+.Container_Home .row.NotificationComponentMain-Content .Notification {
+    height: 81px;
+    border-bottom: solid 0.5px #373737;
+    padding: 0;
+    user-select: none;
+    display: flex;
+}
+
+.Container_Home .row.NotificationComponentMain-Content .Notification:last-child {
+    border-bottom: solid 0.5px #373737;
+}
+
+.Container_Home .row.NotificationComponentMain-Content .Notification.FriendRequest {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+}
+
+.Container_Home .row.NotificationComponentMain-Content .Notification.FriendRequest .imgProfile {
+    padding: 10px 0;
+    height: 100%;
+    display: flex;
+    width: fit-content;
+    justify-content: center;
+    align-items: center;
+}
+
+.Container_Home .row.NotificationComponentMain-Content .Notification.FriendRequest .content {
+    width: calc(100% - 60px);
+    height: calc(100% - 20px);
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+}
+
+.Container_Home .row.NotificationComponentMain-Content .Notification.FriendRequest .content .name {
+    color: white;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.Container_Home .row.NotificationComponentMain-Content .Notification.FriendRequest .content .buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    user-select: none;
+}
+
+.Container_Home .row.NotificationComponentMain-Content .Notification.FriendRequest .content .buttons .add {
+    width: fit-content;
+    height: 30px;
+    background-color: #53aaf9;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    color: white;
+    border-radius: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.Container_Home .row.NotificationComponentMain-Content .Notification.FriendRequest .content .buttons .add:hover {
+    background-color: #1d59b9;
+    transition: 0.5s;
+}
+
+.Container_Home .row.NotificationComponentMain-Content .Notification.FriendRequest .content .buttons .deny {
+    width: fit-content;
+    height: 30px;
+    background-color: #373737;
+    display: flex;
+    align-items: center;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: 0.5s;
+}
+
+.Container_Home .row.NotificationComponentMain-Content .Notification.FriendRequest .content .buttons .deny:hover {
+    background-color: red;
+    transition: 0.5s;
+}
+
+.Container_Home .row.NotificationComponentMain-Content .emptyRequest {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 :focus {

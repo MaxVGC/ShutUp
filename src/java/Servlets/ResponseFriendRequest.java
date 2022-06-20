@@ -11,16 +11,12 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author carlo
  */
-public class SearchUsers extends HttpServlet {
+public class ResponseFriendRequest extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,25 +32,18 @@ public class SearchUsers extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         try ( PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
             PostgresDB pDB = new PostgresDB();
-            String data = request.getParameter("data");
             String shutid = request.getParameter("shutid");
-            String sql = "with cte as (sql) select json_agg(c) from cte as c";
-            String where = "and (u.\"ShutId\" ilike '%" + data + "%' or u.\"Name\" ilike '%" + data + "%' or u.\"Lastname\" ilike '%" + data + "%' or u.\"Email\" ilike '%" + data + "%' or u.\"PhoneNumber\" ilike '%" + data + "%') order by u.\"Name\" asc limit 5";
-            String friends = "SELECT u.\"Name\", u.\"Lastname\",u.\"ShutId\",u.\"Username\",f.\"AcceptedRequest\" FROM public.\"Users\" as u, public.\"Friends\" as f where u.\"ShutId\"!='" + shutid + "' and (f.\"ShutId_1\"=u.\"ShutId\" or f.\"ShutId_2\"=u.\"ShutId\") and (f.\"ShutId_1\"='" + shutid + "' or f.\"ShutId_2\"='" + shutid + "') " + where;
-            String notFriends = "SELECT u.\"Name\", u.\"Lastname\",u.\"ShutId\",u.\"Username\" FROM public.\"Users\" as u where u.\"ShutId\"!='" + shutid + "' and u.\"ShutId\"!= all(SELECT u.\"ShutId\" FROM public.\"Users\" as u, public.\"Friends\" as f where u.\"ShutId\"!='" + shutid + "' and (f.\"ShutId_1\"=u.\"ShutId\" or f.\"ShutId_2\"=u.\"ShutId\")  and (f.\"ShutId_1\"='" + shutid + "' or f.\"ShutId_2\"='" + shutid + "')) "+where;
-            friends = sql.replace("sql", friends);
-            notFriends = sql.replace("sql", notFriends);
-            ResultSet res1 = pDB.executeQuery(friends);
-            ResultSet res2 = pDB.executeQuery(notFriends);
-            try {
-                res1.next();
-                res2.next();
-                out.print("{\"friends\":" + res1.getString(1) + ",\"notFriends\":"+res2.getString(1)+"}");
-                out.flush();
-            } catch (SQLException ex) {
-                Logger.getLogger(SearchUsers.class.getName()).log(Level.SEVERE, null, ex);
+            String id = request.getParameter("id");
+            String action = request.getParameter("action");
+            if (action.equals("add")) {
+                pDB.execute("UPDATE public.\"Friends\" SET \"AcceptedRequest\"=true WHERE \"Id\"=" + id + "");
+            } else {
+                pDB.execute("DELETE FROM public.\"Friends\" WHERE \"Id\"=" + id + "");
             }
+            out.print("{\"response\":true}");
+
         }
     }
 

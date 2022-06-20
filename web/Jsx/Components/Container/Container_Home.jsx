@@ -69,10 +69,10 @@ function Container_Home() {
                         <FriendsComponent />
                     </div>
                     <div className="row" style={{ margin: 0, padding: '0 10px 10px 10px', height: 'calc(100% - 197px)' }}>
-                        <div className="col-md-6" style={{ padding: 0, paddingRight: '5px' }}>
+                        <div className="col-md-4" style={{ padding: 0, paddingRight: '5px' }}>
                             <NotificationComponent />
                         </div>
-                        <div className="col-md-6" style={{ padding: 0, paddingLeft: '5px' }}>
+                        <div className="col-md-8" style={{ padding: 0, paddingLeft: '5px' }}>
 
                         </div>
                     </div>

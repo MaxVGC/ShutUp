@@ -84,13 +84,13 @@ function Container_Home() {
       height: 'calc(100% - 197px)'
     }
   }, /*#__PURE__*/React.createElement("div", {
-    className: "col-md-6",
+    className: "col-md-4",
     style: {
       padding: 0,
       paddingRight: '5px'
     }
   }, /*#__PURE__*/React.createElement(NotificationComponent, null)), /*#__PURE__*/React.createElement("div", {
-    className: "col-md-6",
+    className: "col-md-8",
     style: {
       padding: 0,
       paddingLeft: '5px'

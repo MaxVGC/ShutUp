@@ -48,7 +48,7 @@ function FriendsComponent() {
                 {friendsData ? (
                     users.friends.map((elements, key) => (
                         <div className="card-friend" style={{marginLeft:'12px',backgroundImage:'url(/Assets/photo.jpg)'}} key={key}>
-                            {elements.CurrentState!="Online"?<ion-icon name="radio-button-on"></ion-icon>:<ion-icon name="radio-button-on"></ion-icon>}
+                            {elements.CurrentState!="Online"?<ion-icon name="radio-button-off"></ion-icon>:<ion-icon name="radio-button-on"></ion-icon>}
                         </div>
                     )) 
                 ): <img src="/Assets/loading.svg" style={{ width: '100px', height: '100px' }} />}

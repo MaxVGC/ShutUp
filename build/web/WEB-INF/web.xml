@@ -28,6 +28,14 @@
         <servlet-name>getFriends</servlet-name>
         <servlet-class>Servlets.getFriends</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Notifications</servlet-name>
+        <servlet-class>Servlets.Notifications</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ResponseFriendRequest</servlet-name>
+        <servlet-class>Servlets.ResponseFriendRequest</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterUser</servlet-name>
         <url-pattern>/RegisterUser</url-pattern>
@@ -55,6 +63,14 @@
     <servlet-mapping>
         <servlet-name>getFriends</servlet-name>
         <url-pattern>/getFriends</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Notifications</servlet-name>
+        <url-pattern>/Notifications</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ResponseFriendRequest</servlet-name>
+        <url-pattern>/ResponseFriendRequest</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
