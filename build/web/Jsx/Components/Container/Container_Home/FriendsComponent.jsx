@@ -5,8 +5,8 @@ var users = {
     friends: []
 };
 
-async function getUsers() {
-    let response = await fetch("http://localhost:8080/ShutUp/getFriends?shutid=" + window.localStorage.getItem("ShutId"));
+async function getFriends() {
+    let response = await fetch("http://localhost:8080/ShutUp/getFriends?shutid=" + window.localStorage.getItem("ShutId")+"&amount=10");
     let myJson = await response.json();
     return myJson;
 }
@@ -18,7 +18,7 @@ function FriendsComponent() {
 
 
     React.useEffect(() => {
-        getUsers().then(myJson => {
+        getFriends().then(myJson => {
             users=myJson;
             setFriendsData(true);
         });

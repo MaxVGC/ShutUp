@@ -39,7 +39,13 @@ public class getFriends extends HttpServlet {
             PostgresDB pDB = new PostgresDB();
             String shutid = request.getParameter("shutid");
             String sql = "with cte as (sql) select json_agg(c) from cte as c";
-            String friends = "select u.\"ShutId\",u.\"Name\", u.\"Lastname\", s.\"CurrentState\" from public.\"Users\" as u, public.\"Friends\" as f, public.\"State\" as s where s.\"ShutId\"=u.\"ShutId\" and (u.\"ShutId\"=f.\"ShutId_1\" or u.\"ShutId\"=f.\"ShutId_2\") and f.\"AcceptedRequest\"=true and u.\"ShutId\"!='" + shutid + "' order by u.\"Name\" asc limit 10";
+            String amount = request.getParameter("amount");
+            String friends;
+            if (amount.equals("all")) {
+                friends = "select u.\"ShutId\",u.\"Name\", u.\"Lastname\", s.\"CurrentState\" from public.\"Users\" as u, public.\"Friends\" as f, public.\"State\" as s where s.\"ShutId\"=u.\"ShutId\" and (u.\"ShutId\"=f.\"ShutId_1\" or u.\"ShutId\"=f.\"ShutId_2\") and f.\"AcceptedRequest\"=true and u.\"ShutId\"!='" + shutid + "' order by u.\"Name\" asc";
+            } else {
+                friends = "select u.\"ShutId\",u.\"Name\", u.\"Lastname\", s.\"CurrentState\" from public.\"Users\" as u, public.\"Friends\" as f, public.\"State\" as s where s.\"ShutId\"=u.\"ShutId\" and (u.\"ShutId\"=f.\"ShutId_1\" or u.\"ShutId\"=f.\"ShutId_2\") and f.\"AcceptedRequest\"=true and u.\"ShutId\"!='" + shutid + "' order by u.\"Name\" asc limit "+amount+"";
+            }
             friends = sql.replace("sql", friends);
             ResultSet res1 = pDB.executeQuery(friends);
             try {
