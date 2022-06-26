@@ -478,6 +478,99 @@
     width: 90%;
 }
 
+.Container_Chat .searchFriendComponent .main .img-loading {
+    width: 100%;
+    height: calc(100% - 47px);
+    max-height: calc(100% - 47px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Container_Chat .searchFriendComponent .main .data-search {
+    width: 100%;
+    height: calc(100% - 47px);
+    max-height: calc(100% - 47px);
+    overflow-y: auto;
+}
+
+.Container_Chat .searchFriendComponent .main .data-search .FriendContactCard {
+    position: relative;
+    width: 100%;
+    height: 100px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    background-color: #373737;
+}
+
+.Container_Chat .searchFriendComponent .main .data-search .FriendContactCard .imgBx {
+    width: 80px;
+    border-radius: 5px;
+    height: 100%;
+    overflow: hidden;
+    margin-right: 10px;
+}
+
+.Container_Chat .searchFriendComponent .main .data-search .FriendContactCard .imgBx img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.Container_Chat .searchFriendComponent .main .data-search .FriendContactCard .data {
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+}
+
+.Container_Chat .searchFriendComponent .main .data-search .FriendContactCard .data h2 {
+    font-size: 1.25em;
+    font-weight: 600;
+    line-height: 1.2em;
+}
+
+.Container_Chat .searchFriendComponent .main .data-search .FriendContactCard .data h2 span {
+    font-size: 0.75em;
+    font-weight: 400;
+    opacity: 0.5;
+}
+
+.Container_Chat .searchFriendComponent .main .data-search .FriendContactCard .actionBtns {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    height: 80%;
+    right: 10px;
+}
+
+.Container_Chat .searchFriendComponent .main .data-search .FriendContactCard .actionBtns .btn_custom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-right: 10px;
+    width: 50px;
+    height: 50px;
+    opacity: 0.5;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.Container_Chat .searchFriendComponent .main .data-search .FriendContactCard .actionBtns .btn_custom:hover {
+    opacity: 1;
+}
+
+.Container_Chat .searchFriendComponent .main .data-search .FriendContactCard .actionBtns .btn_custom:nth-child(1) {
+    background-color: greenyellow;
+}
+
+.Container_Chat .searchFriendComponent .main .data-search .FriendContactCard .actionBtns .btn_custom:nth-child(2) {
+    background-color: #53aaf9;
+}
+
 .Container_Chat .conversations {
     height: fit-content;
     max-height: calc(100% - 100px);

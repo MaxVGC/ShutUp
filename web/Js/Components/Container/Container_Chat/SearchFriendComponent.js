@@ -1,4 +1,6 @@
+import FriendContactCard from "./FriendContactCard.js";
 var users = null;
+var copy = null;
 
 async function getFriends() {
   let response = await fetch("http://localhost:8080/ShutUp/getFriends?shutid=" + window.localStorage.getItem("ShutId") + "&amount=all");
@@ -9,13 +11,34 @@ async function getFriends() {
 export default function SearchFriendComponent({
   setShowFriends
 }) {
+  const [queryStatus, setQueryStatus] = React.useState();
+  const [value, setValue] = React.useState();
   const input = React.useRef();
   const ref = React.useRef();
   React.useEffect(() => {
     getFriends().then(myJson => {
       users = myJson;
+      copy = users;
+      setQueryStatus(false);
     });
   }, []);
+
+  function changeInput(e) {
+    console.log(e);
+
+    if (e == '') {
+      users = copy;
+      console.log(users);
+      console.log(copy);
+      setValue(e);
+    } else {
+      users.friends = users.friends.filter(function (el) {
+        return el.Name.toLowerCase().indexOf(e.toLowerCase()) > -1;
+      });
+      setValue(e);
+    }
+  }
+
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "searchFriendComponent"
   }, /*#__PURE__*/React.createElement("div", {
@@ -31,15 +54,23 @@ export default function SearchFriendComponent({
     ref: input,
     type: "text",
     placeholder: "ShutId, nombre, numero de telefono o correo",
-    onKeyPress: e => querydata(e)
+    onChange: e => changeInput(e.target.value)
   }), /*#__PURE__*/React.createElement("ion-icon", {
     name: "close",
     onClick: () => setShowFriends(false),
     style: {
       fontSize: '25px'
     }
-  })), /*#__PURE__*/React.createElement("div", {
+  })), users == null ? /*#__PURE__*/React.createElement("div", {
+    className: "img-loading"
+  }, /*#__PURE__*/React.createElement("img", {
+    src: "/Assets/loading.svg",
+    alt: "Loading"
+  })) : /*#__PURE__*/React.createElement("div", {
     ref: ref,
     className: "data-search"
-  }, users == null ? console.log("xd") : console.log("xd")))));
+  }, users.friends.map((element, key) => /*#__PURE__*/React.createElement(FriendContactCard, {
+    data: element,
+    key: key
+  }))))));
 }
