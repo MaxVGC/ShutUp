@@ -9,34 +9,23 @@ async function getFriends() {
 }
 
 export default function SearchFriendComponent({
-  setShowFriends
+  setShowFriends,
+  setCurrentChat
 }) {
   const [queryStatus, setQueryStatus] = React.useState();
-  const [value, setValue] = React.useState();
+  const [value, setValue] = React.useState('');
   const input = React.useRef();
   const ref = React.useRef();
   React.useEffect(() => {
     getFriends().then(myJson => {
       users = myJson;
-      copy = users;
+      copy = myJson;
       setQueryStatus(false);
     });
   }, []);
 
   function changeInput(e) {
-    console.log(e);
-
-    if (e == '') {
-      users = copy;
-      console.log(users);
-      console.log(copy);
-      setValue(e);
-    } else {
-      users.friends = users.friends.filter(function (el) {
-        return el.Name.toLowerCase().indexOf(e.toLowerCase()) > -1;
-      });
-      setValue(e);
-    }
+    setValue(e);
   }
 
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
@@ -53,7 +42,7 @@ export default function SearchFriendComponent({
   }), /*#__PURE__*/React.createElement("input", {
     ref: input,
     type: "text",
-    placeholder: "ShutId, nombre, numero de telefono o correo",
+    placeholder: "Busqueda por nombre",
     onChange: e => changeInput(e.target.value)
   }), /*#__PURE__*/React.createElement("ion-icon", {
     name: "close",
@@ -69,8 +58,10 @@ export default function SearchFriendComponent({
   })) : /*#__PURE__*/React.createElement("div", {
     ref: ref,
     className: "data-search"
-  }, users.friends.map((element, key) => /*#__PURE__*/React.createElement(FriendContactCard, {
+  }, users.friends.map((element, key) => element.Name.toLowerCase().includes(value) ? /*#__PURE__*/React.createElement(FriendContactCard, {
     data: element,
-    key: key
-  }))))));
+    key: key,
+    setCurrentChat: setCurrentChat,
+    setShowFriends: setShowFriends
+  }) : null)))));
 }

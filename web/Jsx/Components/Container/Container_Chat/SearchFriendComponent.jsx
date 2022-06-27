@@ -9,33 +9,22 @@ async function getFriends() {
     return myJson;
 }
 
-export default function SearchFriendComponent({ setShowFriends }) {
+export default function SearchFriendComponent({ setShowFriends,setCurrentChat }) {
     const [queryStatus, setQueryStatus] = React.useState();
-    const [value, setValue] = React.useState();
+    const [value, setValue] = React.useState('');
 
     const input = React.useRef();
     const ref = React.useRef();
     React.useEffect(() => {
         getFriends().then(myJson => {
             users = myJson;
-            copy = users;
+            copy = myJson;
             setQueryStatus(false);
         });
     }, []);
 
     function changeInput(e) {
-        console.log(e);
-        if (e == '') {
-            users=copy;
-            console.log(users);
-            console.log(copy);
-            setValue(e);
-        } else {
-            users.friends = users.friends.filter(function (el) {
-                return el.Name.toLowerCase().indexOf(e.toLowerCase()) > -1;
-            })
-            setValue(e);
-        }
+        setValue(e);
     }
 
     return (
@@ -44,7 +33,7 @@ export default function SearchFriendComponent({ setShowFriends }) {
                 <div className="main">
                     <div className="search-bar">
                         <ion-icon name="search" style={{ fontSize: '25px' }}></ion-icon>
-                        <input ref={input} type="text" placeholder="ShutId, nombre, numero de telefono o correo" onChange={(e) => changeInput(e.target.value)} />
+                        <input ref={input} type="text" placeholder="Busqueda por nombre" onChange={(e) => changeInput(e.target.value)} />
                         <ion-icon name="close" onClick={() => (setShowFriends(false))} style={{ fontSize: '25px' }}></ion-icon>
                     </div>
                     {users == null ? (
@@ -54,7 +43,7 @@ export default function SearchFriendComponent({ setShowFriends }) {
                     ) : (
                         <div ref={ref} className="data-search" >
                             {users.friends.map((element, key) => (
-                                <FriendContactCard data={element} key={key} />
+                                element.Name.toLowerCase().includes(value)?<FriendContactCard data={element} key={key} setCurrentChat={setCurrentChat} setShowFriends={setShowFriends}/>:null
                             ))}
 
                         </div>

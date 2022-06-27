@@ -653,6 +653,45 @@
     height: 30px;
 }
 
+.Container_Chat .ChatWindowComponent {
+    width: 100%;
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+}
+
+.Container_Chat .ChatWindowComponent .main {
+    height: 100%;
+    width: 100%;
+    display: inline-block;
+    transition: 0.5s;
+}
+
+.Container_Chat .ChatWindowComponent .main.active {
+    width: 60%;
+}
+
+.Container_Chat .ChatWindowComponent .main .header {
+    height: 60px;
+    width: 100%;
+    background-color: #1d1d1d;
+}
+
+.Container_Chat .ChatWindowComponent .data {
+    position: absolute;
+    top: 0;
+    right: -40%;
+    height: 100%;
+    width: 40%;
+    display: inline-block;
+    transition: 0.5s;
+    background-color: blue;
+}
+
+.Container_Chat .ChatWindowComponent .data.active {
+    right: 0;
+}
+
 @media (orientation:portrait) {
     .Container_Main {
         position: absolute;
