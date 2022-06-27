@@ -39,13 +39,13 @@ public class getChats extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            ConnectionString connectionString = new ConnectionString("mongodb+srv://MaxVGC:pkmn3612@shutup.wwg62fe.mongodb.net/?retryWrites=true&w=majority");
-            MongoClient mongoClient = MongoClients.create(connectionString);
-            MongoDatabase database = mongoClient.getDatabase("ShutUp");
-            MongoCollection<Document> collection = database.getCollection("Conversations");
-            Document doc = collection.find(or(eq("ShutId", "MAX3612"))).first();
-            out.write(doc.toJson());
-            mongoClient.close();
+//            ConnectionString connectionString = new ConnectionString("mongodb+srv://MaxVGC:pkmn3612@shutup.wwg62fe.mongodb.net/?retryWrites=true&w=majority");
+//            MongoClient mongoClient = MongoClients.create(connectionString);
+//            MongoDatabase database = mongoClient.getDatabase("ShutUp");
+//            MongoCollection<Document> collection = database.getCollection("Conversations");
+//            Document doc = collection.find(or(eq("ShutId", "MAX3612"))).first();
+//            out.write(doc.toJson());
+//            mongoClient.close();
         }
     }
 

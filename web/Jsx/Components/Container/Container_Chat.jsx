@@ -16,10 +16,10 @@ export function Container_Chat() {
     const [currentChat,setCurrentChat]=React.useState(null);
 
     React.useEffect(() => {
-        getChats().then(myJson => {
-            chats = myJson;
-            console.log(chats);
-        });
+        // getChats().then(myJson => {
+        //     chats = myJson;
+        //     console.log(chats);
+        // });
     }, []);
 
     return (

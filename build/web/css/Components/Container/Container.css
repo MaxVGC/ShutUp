@@ -663,6 +663,7 @@
 .Container_Chat .ChatWindowComponent .main {
     height: 100%;
     width: 100%;
+    position: relative;
     display: inline-block;
     transition: 0.5s;
 }
@@ -674,7 +675,110 @@
 .Container_Chat .ChatWindowComponent .main .header {
     height: 60px;
     width: 100%;
+    padding: 0 10px;
     background-color: #1d1d1d;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.Container_Chat .ChatWindowComponent .main .header .imgBx {
+    width: 40px;
+    position: relative;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.Container_Chat .ChatWindowComponent .main .header .imgBx img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.Container_Chat .ChatWindowComponent .main .header .imgBx .state {
+    position: absolute;
+    right: -5px;
+    bottom: -2px;
+    border: 2px solid #1d1d1d;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: yellowgreen;
+}
+
+.Container_Chat .ChatWindowComponent .main .header .dataUser {
+    display: flex;
+    align-items: center;
+    color: white;
+    cursor: pointer;
+}
+
+.Container_Chat .ChatWindowComponent .main .header .dataUser h3 {
+    font-size: 1.25em;
+    font-weight: 400;
+    line-height: 1em;
+    margin: 0;
+}
+
+.Container_Chat .ChatWindowComponent .main .header .dataUser h3 span {
+    font-size: 0.65em;
+    font-weight: 400;
+    opacity: 0.5;
+}
+
+.Container_Chat .ChatWindowComponent .main .header .actionBtns {
+    color: white;
+    right: 10px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    position: absolute;
+}
+
+.Container_Chat .ChatWindowComponent .main .header .actionBtns .btn_custom {
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: 0.5s;
+}
+
+.Container_Chat .ChatWindowComponent .main .header .actionBtns .btn_custom:hover:nth-child(1) {
+    background-color: greenyellow;
+}
+
+.Container_Chat .ChatWindowComponent .main .header .actionBtns .btn_custom:hover:nth-child(2) {
+    background-color: purple;
+}
+
+.Container_Chat .ChatWindowComponent .main .header .actionBtns .btn_custom ion-icon {
+    width: 25px;
+    height: 25px;
+}
+
+.Container_Chat .ChatWindowComponent .main .messagesContainer {
+    width: 100%;
+    background: linear-gradient(215deg, rgba(121, 186, 242, 1) 0%, rgba(53, 154, 242, 1) 50%, rgba(4, 119, 191, 1) 100%);
+    height: calc(100% - 60px);
+    overflow-y: auto;
+}
+
+.Container_Chat .ChatWindowComponent .main .inputChatWindow {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    width: calc(100% - 10px);
+    height: 60px;
+    border-radius: 36px;
+    background: rgba(29, 29, 29, 0.90);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(6.6px);
+    border: 1px solid rgba(29, 29, 29, 1);
 }
 
 .Container_Chat .ChatWindowComponent .data {

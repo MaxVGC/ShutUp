@@ -4,12 +4,17 @@
  */
 package Servlets;
 
+import Clases.PostgresDB;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -28,18 +33,22 @@ public class getDataUser extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet getDataUser</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet getDataUser at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            PostgresDB pDB = new PostgresDB();
+            String shutid = request.getParameter("shutid");
+            String sql = "with cte as (sql) select json_agg(c) from cte as c";
+            String query = "select u.\"Username\",u.\"Name\",u.\"Lastname\",u.\"Email\",u.\"PhoneNumber\",s.\"CurrentState\",s.\"LastUpdate\" from public.\"Users\" as u,public.\"State\" as s where u.\"ShutId\"=s.\"ShutId\" and u.\"ShutId\"='" + shutid + "'";
+            query = sql.replace("sql", query);
+            ResultSet res1 = pDB.executeQuery(query);
+            try {
+                res1.next();
+                out.print("{\"data\":" + res1.getString(1) + "}");
+                out.flush();
+            } catch (SQLException ex) {
+                Logger.getLogger(SearchUsers.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

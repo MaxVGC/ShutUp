@@ -12,11 +12,10 @@ async function getChats() {
 export function Container_Chat() {
   const [showFriends, setShowFriends] = React.useState(false);
   const [currentChat, setCurrentChat] = React.useState(null);
-  React.useEffect(() => {
-    getChats().then(myJson => {
-      chats = myJson;
-      console.log(chats);
-    });
+  React.useEffect(() => {// getChats().then(myJson => {
+    //     chats = myJson;
+    //     console.log(chats);
+    // });
   }, []);
   return /*#__PURE__*/React.createElement("div", {
     className: "Container_Chat"
