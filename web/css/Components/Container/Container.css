@@ -1,3 +1,7 @@
+body {
+    overflow: hidden;
+}
+
 .Container_Main {
     position: absolute;
     height: 100vh;
@@ -758,19 +762,94 @@
 
 .Container_Chat .ChatWindowComponent .main .header .actionBtns .btn_custom ion-icon {
     width: 25px;
+    cursor: pointer;
     height: 25px;
 }
 
 .Container_Chat .ChatWindowComponent .main .messagesContainer {
     width: 100%;
-    background: linear-gradient(215deg, rgba(121, 186, 242, 1) 0%, rgba(53, 154, 242, 1) 50%, rgba(4, 119, 191, 1) 100%);
-    height: calc(100% - 60px);
+    /* background: linear-gradient(215deg, rgba(121, 186, 242, 1) 0%, rgba(53, 154, 242, 1) 50%, rgba(4, 119, 191, 1) 100%); */
+    height: calc(100vh - 60px);
+    max-height: calc(100vh - 60px);
     overflow-y: auto;
+    padding: 10px 60px;
+    font-size: 15px;
+    transition: 0.5s;
+    padding-bottom: 65px;
+}
+
+.Container_Chat .ChatWindowComponent .main.active .messagesContainer {
+    width: 100%;
+    /* background: linear-gradient(215deg, rgba(121, 186, 242, 1) 0%, rgba(53, 154, 242, 1) 50%, rgba(4, 119, 191, 1) 100%); */
+    height: calc(100vh - 60px);
+    max-height: calc(100vh - 60px);
+    overflow-y: auto;
+    padding: 10px 20px;
+    font-size: 15px;
+    padding-bottom: 65px;
+    transition: 0.5s;
+}
+
+.Container_Chat .ChatWindowComponent .main .messagesContainer::-webkit-scrollbar-track-piece:end {
+    margin-bottom: 70px;
+}
+
+.Container_Chat .ChatWindowComponent .main .messagesContainer .msgCardContainer {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    margin-bottom: 10px;
+    flex-direction: column;
+}
+
+.Container_Chat .ChatWindowComponent .main .messagesContainer .msgCardContainer.Me {
+    align-items: flex-end;
+}
+
+.Container_Chat .ChatWindowComponent .main .messagesContainer .msgCardContainer.Other {
+    align-items: initial;
+}
+
+.Container_Chat .ChatWindowComponent .main .messagesContainer .msgCardContainer.Me .msgCard {
+    width: fit-content;
+    height: fit-content;
+    border-radius: 20px 20px 0 20px;
+    max-width: 60%;
+    background-color: #1d59b9;
+    color: white;
+    padding: 10px 15px;
+    border: solid 1px #272727;
+}
+
+.Container_Chat .ChatWindowComponent .main .messagesContainer .msgCardContainer.Other .msgCard {
+    width: fit-content;
+    height: fit-content;
+    border-radius: 20px 20px 20px 0;
+    max-width: 60%;
+    background-color: #272727;
+    color: white;
+    padding: 10px 15px;
+}
+
+.Container_Chat .ChatWindowComponent .main .messagesContainer .msgCardContainer.Other .time {
+    font-size: 10px;
+    height: 12px;
+    display: flex;
+    color: white;
+    flex-direction: row;
+}
+
+.Container_Chat .ChatWindowComponent .main .messagesContainer .msgCardContainer.Me .time {
+    font-size: 10px;
+    height: 12px;
+    display: flex;
+    color: white;
+    flex-direction: row;
 }
 
 .Container_Chat .ChatWindowComponent .main .inputChatWindow {
     position: absolute;
-    bottom: 5px;
+    bottom: 12px;
     left: 5px;
     width: calc(100% - 10px);
     height: 60px;
@@ -778,7 +857,35 @@
     background: rgba(29, 29, 29, 0.90);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(6.6px);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     border: 1px solid rgba(29, 29, 29, 1);
+    padding: 10px;
+}
+
+.Container_Chat .ChatWindowComponent .main .inputChatWindow ion-icon {
+    width: 30px;
+    height: 30px;
+    color: #4a4a4a;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.Container_Chat .ChatWindowComponent .main .inputChatWindow ion-icon:hover {
+    color: #53aaf9;
+}
+
+.Container_Chat .ChatWindowComponent .main .inputChatWindow input {
+    width: 100%;
+    border: 0;
+    background-color: #333333;
+    border-radius: 12px;
+    height: 100%;
+    padding: 0 10px;
+    margin-left: 10px;
+    color: white;
+    margin-right: 10px;
 }
 
 .Container_Chat .ChatWindowComponent .data {
@@ -786,14 +893,52 @@
     top: 0;
     right: -40%;
     height: 100%;
+    padding: 0 10px;
     width: 40%;
     display: inline-block;
     transition: 0.5s;
-    background-color: blue;
+    overflow: auto;
+    background-color: #1d1d1d;
+    border-left: solid 0.5px #333333;
 }
 
 .Container_Chat .ChatWindowComponent .data.active {
     right: 0;
+}
+
+.Container_Chat .ChatWindowComponent .data .banner {
+    width: 100%;
+    position: relative;
+    height: 200px;
+    background-size: cover;
+    background-position-y: center;
+    border-radius: 0 0 24px 24px;
+    margin-bottom: 50px;
+}
+
+.Container_Chat .ChatWindowComponent .data .banner .profileImg {
+    position: absolute;
+    bottom: -50px;
+    left: calc(50% - ((150px)/2));
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 50%;
+    border: solid 8px #1d1d1d;
+}
+
+.Container_Chat .ChatWindowComponent .data .banner .profileImg img {
+    width: 100%;
+    height: 100%;
+}
+
+.Container_Chat .ChatWindowComponent .data .dataUser {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    word-break: break-all;
+    color: white;
+    text-align: center;
 }
 
 @media (orientation:portrait) {
@@ -802,5 +947,14 @@
         height: calc(100% - 50px);
         width: 100%;
         left: 0px;
+    }
+}
+
+@supports(mix-blend-mode: screen) {
+    .Container_Chat .ChatWindowComponent .main .messagesContainer .msgCardContainer.Me .msgCard {
+        background: blue;
+        background: linear-gradient(180deg, rgba(1, 197, 209, 1) 0%, rgba(54, 83, 232, 1) 100%);
+        background-attachment: fixed;
+        color: white;
     }
 }
