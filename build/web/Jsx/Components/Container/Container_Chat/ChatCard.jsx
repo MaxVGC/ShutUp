@@ -1,28 +1,32 @@
+var dataUserChatCard=null;
 
+async function getDataUser(shutid) {
+    let response = await fetch("http://localhost:8080/ShutUp/getDataUser?shutid=" + shutid + "");
+    let myJson = await response.json();
+    return myJson;
+}
 
+export function ChatCard({ data }) {
+    const [queryingDataStatus, setQueryingDataStatus] = React.useState(true);
 
-export function ChatCard(props) {
+    React.useEffect(() => {
+        if (data.Participants[0] != window.localStorage.getItem("ShutId")) {
+            getDataUser(data.Participants[0]).then(myJson => {
+                dataUserChatCard = myJson;
+                setQueryingDataStatus(false);
+            });
+        }
+        if (data.Participants[1] != window.localStorage.getItem("ShutId")) {
+            getDataUser(data.Participants[1]).then(myJson => {
+                dataUserChatCard = myJson;
+                setQueryingDataStatus(false);
+            });
+        }
+    }, []);
 
     return (
-        <div className="chat_card" onClick={()=>(console.log(props))}>
-            <div className="profile-image">
-                <img src={props.data.image} alt="Profile image" />
-            </div>
-            <div className="data">
-                <div className="header">
-                    {props.data.name}
-                    <ion-icon name="ellipsis-horizontal"></ion-icon>
-                </div>
-                <div className="data-msg">
-                    <div className="last-msg">
-                        {props.data.LastTransmitter==='me'?<ion-icon name="checkmark-done"></ion-icon>:null}
-                        {' '+props.data.LastMessage}
-                    </div>
-                    <div className="time">
-                        {props.data.TimeLastMessage}
-                    </div>
-                </div>
-            </div>
+        <div className="chat_card" onClick={() => (console.log(props))}>
+
         </div>
     );
 }

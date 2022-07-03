@@ -6,7 +6,7 @@ export default function FriendContactCard({ data,setCurrentChat,setShowFriends }
 
     return (
         <>
-            <div className={'FriendContactCard'} onClick={()=>(setCurrentChat(data.ShutId),setShowFriends(false))} >
+            <div className={'FriendContactCard'}  >
                 <div className="imgBx">
                     <img src={image} alt="xd" />
                 </div>
@@ -17,7 +17,7 @@ export default function FriendContactCard({ data,setCurrentChat,setShowFriends }
                     <div className="btn_custom">
                         <ion-icon name="call"></ion-icon>
                     </div>
-                    <div className="btn_custom">
+                    <div className="btn_custom" onClick={()=>(setCurrentChat(data.ShutId),setShowFriends(false))}>
                         <ion-icon name="chatbubble"></ion-icon>
                     </div>
                 </div>

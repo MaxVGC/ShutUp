@@ -4,6 +4,7 @@
  */
 package WebSocket;
 
+import Clases.Users;
 import jakarta.websocket.server.ServerEndpoint;
 import jakarta.websocket.OnClose;
 import jakarta.websocket.OnError;
@@ -28,6 +29,7 @@ import Util.HTMLFilter;
 
 public class Chats {
 
+    private static final Map<String, Users> users = new ConcurrentHashMap();
     private static final String GUEST_PREFIX = "Guest";
     private static final AtomicInteger connectionIds = new AtomicInteger(0);
     private static final Set<Chats> connections
@@ -44,13 +46,16 @@ public class Chats {
     public void start(Session session, @PathParam("shutid") String shutid) {
         this.session = session;
         connections.add(this);
+        users.put(shutid, new Users(shutid));
+        users.get(shutid).connect();
         String message = String.format("* %s %s", shutid, "has joined.");
         broadcast(message);
     }
 
     @OnClose
-    public void end() {
+    public void end( @PathParam("shutid") String shutid) {
         connections.remove(this);
+        users.get(shutid).disconnect();
         String message = String.format("* %s %s",
                 nickname, "has disconnected.");
         broadcast(message);
@@ -58,7 +63,6 @@ public class Chats {
 
     @OnMessage
     public void incoming(String message) {
-        // Never trust the client
         try {
             System.out.println(message);
             String filteredMessage = HTMLFilter.filter(message);

@@ -37,12 +37,12 @@
         <servlet-class>Servlets.ResponseFriendRequest</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>getChats</servlet-name>
-        <servlet-class>Servlets.getChats</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>getDataUser</servlet-name>
         <servlet-class>Servlets.getDataUser</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getConversations</servlet-name>
+        <servlet-class>Servlets.getConversations</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>RegisterUser</servlet-name>
@@ -81,12 +81,12 @@
         <url-pattern>/ResponseFriendRequest</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>getChats</servlet-name>
-        <url-pattern>/getChats</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>getDataUser</servlet-name>
         <url-pattern>/getDataUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getConversations</servlet-name>
+        <url-pattern>/getConversations</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

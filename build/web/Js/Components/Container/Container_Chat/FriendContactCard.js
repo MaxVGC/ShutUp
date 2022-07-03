@@ -5,8 +5,7 @@ export default function FriendContactCard({
   setShowFriends
 }) {
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
-    className: 'FriendContactCard',
-    onClick: () => (setCurrentChat(data.ShutId), setShowFriends(false))
+    className: 'FriendContactCard'
   }, /*#__PURE__*/React.createElement("div", {
     className: "imgBx"
   }, /*#__PURE__*/React.createElement("img", {
@@ -21,7 +20,8 @@ export default function FriendContactCard({
   }, /*#__PURE__*/React.createElement("ion-icon", {
     name: "call"
   })), /*#__PURE__*/React.createElement("div", {
-    className: "btn_custom"
+    className: "btn_custom",
+    onClick: () => (setCurrentChat(data.ShutId), setShowFriends(false))
   }, /*#__PURE__*/React.createElement("ion-icon", {
     name: "chatbubble"
   })))));

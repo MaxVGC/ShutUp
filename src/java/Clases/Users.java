@@ -26,6 +26,13 @@ public class Users extends PostgresDB {
     private String Lastname;
     private String Email;
     private String PhoneNumber;
+    
+    public Users(){
+    }
+    
+    public Users(String ShutId){
+        this.ShutId=ShutId;
+    }
 
     public String getShutId() {
         return ShutId;
@@ -173,6 +180,10 @@ public class Users extends PostgresDB {
     
     public void connect(){
         execute("UPDATE public.\"State\" SET \"CurrentState\"='Online' WHERE \"ShutId\"='"+this.ShutId+"'");
+    }
+    
+    public void disconnect(){
+        execute("UPDATE public.\"State\" SET \"CurrentState\"='Disconnected' WHERE \"ShutId\"='"+this.ShutId+"'");
     }
 
     @Override

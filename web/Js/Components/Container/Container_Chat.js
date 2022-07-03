@@ -3,20 +3,19 @@ import SearchFriendComponent from "./Container_Chat/SearchFriendComponent.js";
 import ChatWindowComponent from "./Container_Chat/ChatWindowComponent.js";
 var chats = null;
 
-async function getChats() {
-  let response = await fetch("http://localhost:8080/ShutUp/getChats?shutid=" + window.localStorage.getItem("ShutId"));
+async function getConversations() {
+  let response = await fetch("http://localhost:8080/ShutUp/getConversations?shutid=" + window.localStorage.getItem("ShutId") + "&range=-1&friend=none");
   let myJson = await response.json();
   return myJson;
 }
 
+getConversations().then(myJson => {
+  chats = myJson;
+});
 export function Container_Chat() {
   const [showFriends, setShowFriends] = React.useState(false);
   const [currentChat, setCurrentChat] = React.useState(null);
-  React.useEffect(() => {// getChats().then(myJson => {
-    //     chats = myJson;
-    //     console.log(chats);
-    // });
-  }, []);
+  const [queryingConversations, setStatusQueryConversation] = React.useState(true);
   return /*#__PURE__*/React.createElement("div", {
     className: "Container_Chat"
   }, /*#__PURE__*/React.createElement("div", {
@@ -43,7 +42,10 @@ export function Container_Chat() {
     placeholder: "Buscar conversacion"
   })), /*#__PURE__*/React.createElement("div", {
     className: "row conversations"
-  })), /*#__PURE__*/React.createElement("div", {
+  }, chats == null ? null : chats.Conversations.map((element, key) => /*#__PURE__*/React.createElement(ChatCard, {
+    key: key,
+    data: element
+  })))), /*#__PURE__*/React.createElement("div", {
     className: "col-md-9 chat-window",
     style: {
       padding: 0

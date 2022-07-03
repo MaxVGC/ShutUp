@@ -22,6 +22,10 @@ public class MongoDB {
     MongoClient mongoClient = null;
     ConnectionString connectionString = null;
     MongoDatabase database=null;
+    
+    public MongoDB(){
+        this.conectar();
+    }
 
     public MongoClient conectar() {
         connectionString = new ConnectionString("mongodb+srv://MaxVGC:pkmn3612@shutup.wwg62fe.mongodb.net/?retryWrites=true&w=majority");

@@ -4,26 +4,20 @@
  */
 package Servlets;
 
-import com.mongodb.ConnectionString;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import static com.mongodb.client.model.Filters.eq;
-import static com.mongodb.client.model.Filters.or;
+import Clases.Conversations;
+import Clases.Users;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.bson.Document;
 
 /**
  *
  * @author carlo
  */
-public class getChats extends HttpServlet {
+public class getConversations extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,13 +33,19 @@ public class getChats extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-//            ConnectionString connectionString = new ConnectionString("mongodb+srv://MaxVGC:pkmn3612@shutup.wwg62fe.mongodb.net/?retryWrites=true&w=majority");
-//            MongoClient mongoClient = MongoClients.create(connectionString);
-//            MongoDatabase database = mongoClient.getDatabase("ShutUp");
-//            MongoCollection<Document> collection = database.getCollection("Conversations");
-//            Document doc = collection.find(or(eq("ShutId", "MAX3612"))).first();
-//            out.write(doc.toJson());
-//            mongoClient.close();
+            String shutid = request.getParameter("shutid");
+            int range = Integer.parseInt(request.getParameter("range"));
+            String friend = request.getParameter("friend");
+            Users user = new Users(shutid);
+            Conversations conv = new Conversations(user);
+            String aux;
+            if (friend.equals("none")) {
+                aux=conv.getAllConversations(-1);
+            } else {
+                aux=conv.getConversationWithFriend(20, friend);
+            }
+            out.write(aux);
+            out.flush();
         }
     }
 
