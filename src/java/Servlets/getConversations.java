@@ -40,9 +40,9 @@ public class getConversations extends HttpServlet {
             Conversations conv = new Conversations(user);
             String aux;
             if (friend.equals("none")) {
-                aux=conv.getAllConversations(-1);
+                aux=conv.getAllConversations(range);
             } else {
-                aux=conv.getConversationWithFriend(20, friend);
+                aux=conv.getConversationWithFriend(range, friend);
             }
             out.write(aux);
             out.flush();

@@ -40,23 +40,25 @@ public class Conversations {
         while (cursor.hasNext()) {
             result = result + "," + cursor.next().toJson();
         }
-        return "{\"Conversations\":["+result.substring(1)+"]}";
+        Mongo.getConexion().close();
+        return "{\"Conversations\":[" + result.substring(1) + "]}";
     }
-    
-    public String getConversationWithFriend(int range,String shutidF) {
+
+    public String getConversationWithFriend(int range, String shutidF) {
         Mongo = new MongoDB();
         Mongo.conectar();
         MongoCollection<Document> aux = Mongo.database.getCollection("Conversations");
         Bson projectionFields = Projections.fields(
                 Projections.excludeId(), slice("Messages", range));
-        MongoCursor<Document> cursor = aux.find(and(eq("Participants", user.getShutId()),eq("Participants", shutidF)))
+        MongoCursor<Document> cursor = aux.find(and(eq("Participants", user.getShutId()), eq("Participants", shutidF)))
                 .projection(projectionFields)
                 .sort(Sorts.descending("Messages.Time")).iterator();
         String result = "";
         while (cursor.hasNext()) {
             result = result + "," + cursor.next().toJson();
         }
-        return "{\"Conversations\":["+result.substring(1)+"]}";
+        Mongo.getConexion().close();
+        return "{\"Conversations\":[" + result.substring(1) + "]}";
     }
 
 }

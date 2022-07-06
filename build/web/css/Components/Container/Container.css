@@ -602,59 +602,45 @@ body {
     transition: 0.3s;
 }
 
-.Container_Chat .conversations .chat_card .profile-image {
-    height: 100%;
-    width: 50px;
-    margin-right: 10px;
-    display: flex;
-    align-items: center;
-}
-
-.Container_Chat .conversations .chat_card .data {
-    height: 100%;
-    width: calc(100% - 60px);
-    display: flex;
-    flex-direction: column;
-    padding: 10px 0;
-}
-
 .Container_Chat .conversations .chat_card img {
     height: 50px;
     width: 50px;
     border-radius: 50%;
 }
 
-.Container_Chat .conversations .chat_card .header {
-    display: flex;
-    align-items: center;
+.Container_Chat .conversations .chat_card .dataChatCard {
+    position: relative;
     width: 100%;
-    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: calc(100% - 112px);
+}
+
+.Container_Chat .conversations .chat_card .dataChatCard .nameChatCard {
     color: white;
+    font-weight: 600;
+    line-height: 20px;
 }
 
-.Container_Chat .conversations .chat_card .data-msg {
-    color: rgba(255, 255, 255, 0.3);
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-}
-
-.Container_Chat .conversations .chat_card .time {
-    display: flex;
-    font-size: 14px;
-    align-items: flex-end;
-}
-
-.Container_Chat .conversations .chat_card .last-msg {
-    max-width: calc(100% - 40px);
+.Container_Chat .conversations .chat_card .dataChatCard .previewMsgChatCard {
+    color: #4a4a4a;
+    font-weight: 400;
     overflow: hidden;
     white-space: nowrap;
+    display: flex;
+    align-items: center;
     text-overflow: ellipsis;
 }
 
-.Container_Chat .conversations .chat_card .header ion-icon {
-    width: 30px;
-    height: 30px;
+.Container_Chat .conversations .chat_card .dataTime {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    line-height: 10px;
 }
 
 .Container_Chat .ChatWindowComponent {

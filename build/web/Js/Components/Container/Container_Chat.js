@@ -1,21 +1,22 @@
 import ChatCard from "./Container_Chat/ChatCard.js";
 import SearchFriendComponent from "./Container_Chat/SearchFriendComponent.js";
 import ChatWindowComponent from "./Container_Chat/ChatWindowComponent.js";
-var chats = null;
 
 async function getConversations() {
-  let response = await fetch("http://localhost:8080/ShutUp/getConversations?shutid=" + window.localStorage.getItem("ShutId") + "&range=-1&friend=none");
+  let response = await fetch("http://localhost:8080/ShutUp/getConversations?shutid=" + window.localStorage.getItem("ShutId") + "&range=20&friend=none");
   let myJson = await response.json();
   return myJson;
 }
 
-getConversations().then(myJson => {
-  chats = myJson;
-});
 export function Container_Chat() {
   const [showFriends, setShowFriends] = React.useState(false);
   const [currentChat, setCurrentChat] = React.useState(null);
-  const [queryingConversations, setStatusQueryConversation] = React.useState(true);
+  const [chats, setChats] = React.useState(null);
+  React.useEffect(() => {
+    getConversations().then(myJson => {
+      setChats(myJson);
+    });
+  }, []);
   return /*#__PURE__*/React.createElement("div", {
     className: "Container_Chat"
   }, /*#__PURE__*/React.createElement("div", {
@@ -44,7 +45,8 @@ export function Container_Chat() {
     className: "row conversations"
   }, chats == null ? null : chats.Conversations.map((element, key) => /*#__PURE__*/React.createElement(ChatCard, {
     key: key,
-    data: element
+    data: element,
+    setCurrentChat: setCurrentChat
   })))), /*#__PURE__*/React.createElement("div", {
     className: "col-md-9 chat-window",
     style: {

@@ -2,19 +2,14 @@ import MessageCard from "./MessageCard.js";
 var image = "https://scontent.fvvc1-1.fna.fbcdn.net/v/t1.6435-1/201990428_4331801176852187_1249459949626412878_n.jpg?stp=dst-jpg_p200x200&_nc_cat=105&ccb=1-7&_nc_sid=7206a8&_nc_eui2=AeErfmR8vagZAj-Vz3fmm0MhY-dJB-ohgV1j50kH6iGBXal8V5dFM1jugGXsEGT2-pbtUZBvJkrBufH85A6LWv1g&_nc_ohc=g6Ud48jrogoAX8xHjlq&_nc_ht=scontent.fvvc1-1.fna&oh=00_AT9li9zhnyFOlF34C2mgZ5oUTVEK_fDk0tAtUXzg8HSWNA&oe=62D4D6F4";
 var dataUser = null;
 var banner = "https://es.normandie-tourisme.fr/wp-content/uploads/sites/7/2020/01/8118-Mont-Saint-Michel-couleur-dautomne-%C2%A9-DaLiu-Shutterstock.com-%C2%A9-DaLiu-Shutterstock.com_.jpg";
-
-async function getDataUser(shutid) {
-  let response = await fetch("http://localhost:8080/ShutUp/getDataUser?shutid=" + shutid + "");
-  let myJson = await response.json();
-  return myJson;
-}
-
 export default function ChatWindowComponent({
   currentChat
 }) {
+  var messages;
   const [visibleData, setVisibleData] = React.useState(false);
+  const [count, setCount] = React.useState(0);
+  const [actualCurrentChat, setActualCurrentChat] = React.useState(null);
   const [queryingDataStatus, setQueryingDataStatus] = React.useState(true);
-  const [queryingChat, setQueryingChat] = React.useState(true);
   const [msg, setMsg] = React.useState([]);
   const inputMsg = React.useRef();
   const msgContainer = React.useRef();
@@ -31,9 +26,10 @@ export default function ChatWindowComponent({
       setMsg(msg.concat( /*#__PURE__*/React.createElement(MessageCard, {
         msg: inputMsg.current.value,
         transmitter: 'Me',
-        key: msg.length,
+        key: count,
         scroll: msgContainer.current
       })));
+      setCount(count + 1);
       inputMsg.current.value = '';
     }
   }
@@ -47,12 +43,10 @@ export default function ChatWindowComponent({
   }
 
   React.useEffect(() => {
-    getDataUser(currentChat).then(myJson => {
-      dataUser = myJson;
-      console.log(dataUser);
-      setQueryingDataStatus(false);
-    });
-  }, []);
+    dataUser = JSON.parse(sessionStorage.getItem(currentChat));
+    setActualCurrentChat(currentChat);
+    setQueryingDataStatus(false);
+  });
   return /*#__PURE__*/React.createElement("div", {
     className: "ChatWindowComponent"
   }, /*#__PURE__*/React.createElement("div", {
@@ -83,7 +77,12 @@ export default function ChatWindowComponent({
   })))), /*#__PURE__*/React.createElement("div", {
     className: "messagesContainer",
     ref: msgContainer
-  }, msg), /*#__PURE__*/React.createElement("div", {
+  }, queryingDataStatus ? null : dataUser.Messages.map((element, key) => /*#__PURE__*/React.createElement(MessageCard, {
+    msg: element.Message,
+    transmitter: 'Me',
+    key: key,
+    scroll: msgContainer.current
+  })), msg), /*#__PURE__*/React.createElement("div", {
     className: "inputChatWindow"
   }, /*#__PURE__*/React.createElement("ion-icon", {
     name: "happy-outline"

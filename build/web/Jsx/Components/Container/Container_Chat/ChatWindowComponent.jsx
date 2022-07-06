@@ -4,16 +4,13 @@ var image = "https://scontent.fvvc1-1.fna.fbcdn.net/v/t1.6435-1/201990428_433180
 var dataUser = null;
 var banner = "https://es.normandie-tourisme.fr/wp-content/uploads/sites/7/2020/01/8118-Mont-Saint-Michel-couleur-dautomne-%C2%A9-DaLiu-Shutterstock.com-%C2%A9-DaLiu-Shutterstock.com_.jpg";
 
-async function getDataUser(shutid) {
-    let response = await fetch("http://localhost:8080/ShutUp/getDataUser?shutid=" + shutid + "");
-    let myJson = await response.json();
-    return myJson;
-}
-
 export default function ChatWindowComponent({ currentChat }) {
+    var messages;
+
     const [visibleData, setVisibleData] = React.useState(false);
+    const [count, setCount] = React.useState(0);
+    const [actualCurrentChat, setActualCurrentChat] = React.useState(null);
     const [queryingDataStatus, setQueryingDataStatus] = React.useState(true);
-    const [queryingChat, setQueryingChat] = React.useState(true);
     const [msg, setMsg] = React.useState([]);
 
     const inputMsg = React.useRef();
@@ -28,7 +25,8 @@ export default function ChatWindowComponent({ currentChat }) {
     function msgOut() {
         //send_msg(inputMsg.current.value);
         if (inputMsg.current.value != '') {
-            setMsg(msg.concat(<MessageCard msg={inputMsg.current.value} transmitter={'Me'} key={msg.length} scroll={msgContainer.current}/>));
+            setMsg(msg.concat(<MessageCard msg={inputMsg.current.value} transmitter={'Me'} key={count} scroll={msgContainer.current} />));
+            setCount(count + 1);
             inputMsg.current.value = '';
         }
     }
@@ -42,12 +40,10 @@ export default function ChatWindowComponent({ currentChat }) {
     }
 
     React.useEffect(() => {
-        getDataUser(currentChat).then(myJson => {
-            dataUser = myJson;
-            console.log(dataUser);
-            setQueryingDataStatus(false);
-        });
-    }, []);
+        dataUser = JSON.parse(sessionStorage.getItem(currentChat));
+        setActualCurrentChat(currentChat);
+        setQueryingDataStatus(false);
+    });
 
     return (
         <div className="ChatWindowComponent">
@@ -70,6 +66,11 @@ export default function ChatWindowComponent({ currentChat }) {
                     </div>
                 </div>
                 <div className="messagesContainer" ref={msgContainer}>
+                    {queryingDataStatus ? null : (
+                        dataUser.Messages.map((element, key) => (
+                            <MessageCard msg={element.Message} transmitter={'Me'} key={key} scroll={msgContainer.current} />
+                        ))
+                    )}
                     {msg}
                 </div>
                 <div className="inputChatWindow">
