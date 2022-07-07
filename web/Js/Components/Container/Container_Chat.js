@@ -1,4 +1,5 @@
 import ChatCard from "./Container_Chat/ChatCard.js";
+import { ProviderChat } from './Container_Chat/ChatContext.js';
 import SearchFriendComponent from "./Container_Chat/SearchFriendComponent.js";
 import ChatWindowComponent from "./Container_Chat/ChatWindowComponent.js";
 
@@ -12,12 +13,18 @@ export function Container_Chat() {
   const [showFriends, setShowFriends] = React.useState(false);
   const [currentChat, setCurrentChat] = React.useState(null);
   const [chats, setChats] = React.useState(null);
+  const [updateChat, setUpdateChat] = React.useState(null);
   React.useEffect(() => {
     getConversations().then(myJson => {
       setChats(myJson);
     });
   }, []);
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React.createElement(ProviderChat, {
+    value: {
+      updateChat,
+      setUpdateChat
+    }
+  }, /*#__PURE__*/React.createElement("div", {
     className: "Container_Chat"
   }, /*#__PURE__*/React.createElement("div", {
     className: "row",
@@ -54,6 +61,6 @@ export function Container_Chat() {
     }
   }, currentChat != null ? /*#__PURE__*/React.createElement(ChatWindowComponent, {
     currentChat: currentChat
-  }) : null)));
+  }) : null))));
 }
 export default Container_Chat;
