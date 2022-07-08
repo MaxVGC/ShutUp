@@ -1,5 +1,6 @@
 import ChatCard from "./Container_Chat/ChatCard.js";
 import { ProviderChat } from './Container_Chat/ChatContext.js'
+import ContainerContext from './ContainerContext.js';
 import SearchFriendComponent from "./Container_Chat/SearchFriendComponent.js";
 import ChatWindowComponent from "./Container_Chat/ChatWindowComponent.js";
 
@@ -14,17 +15,22 @@ export function Container_Chat() {
     const [showFriends, setShowFriends] = React.useState(false);
     const [currentChat, setCurrentChat] = React.useState(null);
     const [chats, setChats] = React.useState(null);
-    const [updateChat,setUpdateChat]=React.useState(null);
-
+    const [updateChat, setUpdateChat] = React.useState(null);
+    const { dataContainerChat,setDataContainerChat } = React.useContext(ContainerContext);
 
     React.useEffect(() => {
-        getConversations().then(myJson => {
-            setChats(myJson);
-        });
+        if (!dataContainerChat.isOpened) {
+            getConversations().then(myJson => {
+                setChats(myJson);
+                setDataContainerChat({...dataContainerChat,isOpened:true,Conversations:myJson});
+            });
+        }else{
+            setChats(dataContainerChat.Conversations);
+        }
     }, []);
 
     return (
-        <ProviderChat value={{updateChat,setUpdateChat}}>
+        <ProviderChat value={{ updateChat, setUpdateChat }}>
             <div className="Container_Chat">
                 <div className="row" style={{ height: '100%', margin: 0, padding: 0 }}>
                     <div className="col-md-3 chats">

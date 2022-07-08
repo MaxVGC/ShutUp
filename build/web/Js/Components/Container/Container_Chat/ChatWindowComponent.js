@@ -7,7 +7,6 @@ export default function ChatWindowComponent({
   currentChat
 }) {
   const [visibleData, setVisibleData] = React.useState(false);
-  const [count, setCount] = React.useState(0);
   const [actualCurrentChat, setActualCurrentChat] = React.useState(null);
   const [queryingDataStatus, setQueryingDataStatus] = React.useState(true);
   const {

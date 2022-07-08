@@ -9,7 +9,6 @@ var banner = "https://es.normandie-tourisme.fr/wp-content/uploads/sites/7/2020/0
 export default function ChatWindowComponent({ currentChat }) {
 
     const [visibleData, setVisibleData] = React.useState(false);
-    const [count, setCount] = React.useState(0);
     const [actualCurrentChat, setActualCurrentChat] = React.useState(null);
     const [queryingDataStatus, setQueryingDataStatus] = React.useState(true);
     const { setUpdateChat } = React.useContext(ChatContext);
