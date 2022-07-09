@@ -1,5 +1,6 @@
 import MessageCard from "./MessageCard.js";
 import ChatContext from './ChatContext.js';
+import ContainerContext from './../ContainerContext.js';
 var image = "https://scontent.fvvc1-1.fna.fbcdn.net/v/t1.6435-1/201990428_4331801176852187_1249459949626412878_n.jpg?stp=dst-jpg_p200x200&_nc_cat=105&ccb=1-7&_nc_sid=7206a8&_nc_eui2=AeErfmR8vagZAj-Vz3fmm0MhY-dJB-ohgV1j50kH6iGBXal8V5dFM1jugGXsEGT2-pbtUZBvJkrBufH85A6LWv1g&_nc_ohc=g6Ud48jrogoAX8xHjlq&_nc_ht=scontent.fvvc1-1.fna&oh=00_AT9li9zhnyFOlF34C2mgZ5oUTVEK_fDk0tAtUXzg8HSWNA&oe=62D4D6F4";
 var dataUser = null;
 var banner = "https://es.normandie-tourisme.fr/wp-content/uploads/sites/7/2020/01/8118-Mont-Saint-Michel-couleur-dautomne-%C2%A9-DaLiu-Shutterstock.com-%C2%A9-DaLiu-Shutterstock.com_.jpg";
@@ -12,6 +13,9 @@ export default function ChatWindowComponent({
   const {
     setUpdateChat
   } = React.useContext(ChatContext);
+  const {
+    webSocket
+  } = React.useContext(ContainerContext);
   const inputMsg = React.useRef();
   const msgContainer = React.useRef();
 
@@ -23,7 +27,7 @@ export default function ChatWindowComponent({
 
   function msgOut() {
     if (inputMsg.current.value != '' & inputMsg.current.value.trim() != "") {
-      send_msg(JSON.stringify({
+      webSocket.send_msg(JSON.stringify({
         ShutIdR: currentChat,
         Message: inputMsg.current.value
       }));

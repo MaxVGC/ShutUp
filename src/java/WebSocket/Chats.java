@@ -21,6 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicInteger;
 import Util.HTMLFilter;
+import java.sql.Timestamp;
 import org.json.JSONObject;
 
 /**
@@ -40,6 +41,7 @@ public class Chats {
 
     private final String nickname;
     private Session session;
+    private String GuestShutId;
     JSONObject jsonReader = null;
 
     public Chats() {
@@ -49,11 +51,11 @@ public class Chats {
     @OnOpen
     public void start(Session session, @PathParam("shutid") String shutid) {
         this.session = session;
+        this.GuestShutId = shutid;
         connections.add(this);
         users.put(shutid, new Users(shutid));
         users.get(shutid).connect();
         String message = String.format("* %s %s", shutid, "has joined.");
-        broadcast(message);
     }
 
     @OnClose
@@ -62,7 +64,6 @@ public class Chats {
         users.get(shutid).disconnect();
         String message = String.format("* %s %s",
                 nickname, "has disconnected.");
-        broadcast(message);
     }
 
     @OnMessage
@@ -71,11 +72,12 @@ public class Chats {
             jsonReader = new JSONObject(message);
             Conversation = new Conversations(users.get(shutid));
             String filteredMessage = HTMLFilter.filter(jsonReader.getString("Message"));
-            Conversation.SendMessage( jsonReader.getString("ShutIdR"), filteredMessage);
-            broadcast(filteredMessage);
+            broadcast(jsonReader.getString("ShutIdR"), "{\"Type\":\"Message\",\"Payload\":{\"Message\":\"" + filteredMessage + "\",\"From\":\"" + shutid + "\",\"Current\":\"" + jsonReader.getString("ShutIdR") + "\",\"Time\":{\"$numberLong\":" + new Timestamp(System.currentTimeMillis()).getTime() + "}}}");
+            //Conversation.SendMessage(jsonReader.getString("ShutIdR"), filteredMessage);
         } catch (Exception e) {
             System.out.println(e);
         }
+
     }
 
     @OnError
@@ -84,11 +86,13 @@ public class Chats {
         System.out.println("Chat Error: " + t.toString());
     }
 
-    private static void broadcast(String msg) {
+    private void broadcast(String target, String msg) {
         for (Chats client : connections) {
             try {
-                synchronized (client) {
-                    client.session.getBasicRemote().sendText(msg);
+                if (this.session != client.session && target.equals(client.GuestShutId)) {
+                    synchronized (client) {
+                        client.session.getBasicRemote().sendText(msg);
+                    }
                 }
             } catch (IOException e) {
                 connections.remove(client);
@@ -97,11 +101,7 @@ public class Chats {
                 } catch (IOException e1) {
                     // Ignore
                 }
-                String message = String.format("* %s %s",
-                        client.nickname, "has been disconnected.");
-                broadcast(message);
             }
         }
     }
-
 }

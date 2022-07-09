@@ -4,3 +4,13 @@
     <script src="prueba.jsx" type="text/babel"></script>
 
     npx babel --watch Jsx --out-dir Js 
+
+
+    webSocket.webSocket.onmessage = function (evt) {
+        var data= JSON.parse(evt.data);
+        var aux = { Message: data.Message, current: currentChat, From:data.From , Time: { $numberLong: (+new Date()) } };
+        var aux2 = JSON.parse(sessionStorage.getItem(currentChat));
+        aux2.Messages.push(aux);
+        sessionStorage.setItem(currentChat, JSON.stringify(aux2));
+        setUpdateChat(aux);
+    };

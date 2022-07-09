@@ -1,6 +1,5 @@
 import Sidebar from './Components/Sidebar.js';
-import ContainerMain from './Components/Container/Container.js'; //import initWebSocket from './WebSocket.js'
-
+import ContainerMain from './Components/Container/Container.js';
 import useGlobal from './GlobalVariable.js';
 import Context from './Context.js';
 const Container = document.getElementById('container-fluid');

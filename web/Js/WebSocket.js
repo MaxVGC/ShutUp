@@ -1,21 +1,19 @@
 var webSocket;
-var nickname = window.localStorage.getItem("ShutId");
-initWebSocket(nickname);
 
-function initWebSocket(nickname) {
+const initWebSocket = () => {
+  const [onChangeData, setData] = React.useState(null);
+
   if ("WebSocket" in window) {
     if (webSocket == null) {
       var url = null;
 
       if (window.location.protocol == 'http:') {
-        url = "ws://" + window.location.host + "/ShutUp/webSocket/" + nickname;
+        url = "ws://" + window.location.host + "/ShutUp/webSocket/" + window.localStorage.getItem("ShutId");
       } else {
-        url = "wss://" + window.location.host + "/ShutUp/webSocket/" + nickname;
+        url = "wss://" + window.location.host + "/ShutUp/webSocket/" + window.localStorage.getItem("ShutId");
       }
 
       webSocket = new WebSocket(url);
-    } else {
-      alert("Has entrado en la sala de chat ...");
     }
   }
 
@@ -23,7 +21,7 @@ function initWebSocket(nickname) {
     if (webSocket != null) {
       webSocket.send(input_msg);
     } else {
-      alert("Estás desconectado, vuelve a ingresar a la sala de chat ...");
+      alert("Estás desconectado, vuelve a iniciar sesion en la aplicacion ...");
     }
   }
 
@@ -34,6 +32,15 @@ function initWebSocket(nickname) {
   };
 
   webSocket.onmessage = function (evt) {
-    console.log("message@" + evt.data);
+    setData(JSON.parse(evt.data));
   };
-}
+
+  return {
+    webSocket,
+    send_msg,
+    setData,
+    onChangeData
+  };
+};
+
+export default initWebSocket;

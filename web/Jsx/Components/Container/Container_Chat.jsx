@@ -4,6 +4,8 @@ import ContainerContext from './ContainerContext.js';
 import SearchFriendComponent from "./Container_Chat/SearchFriendComponent.js";
 import ChatWindowComponent from "./Container_Chat/ChatWindowComponent.js";
 
+var prevData;
+
 async function getConversations() {
     let response = await fetch("http://localhost:8080/ShutUp/getConversations?shutid=" + window.localStorage.getItem("ShutId") + "&range=20&friend=none");
     let myJson = await response.json();
@@ -16,15 +18,25 @@ export function Container_Chat() {
     const [currentChat, setCurrentChat] = React.useState(null);
     const [chats, setChats] = React.useState(null);
     const [updateChat, setUpdateChat] = React.useState(null);
-    const { dataContainerChat,setDataContainerChat } = React.useContext(ContainerContext);
+    const { dataContainerChat, setDataContainerChat, webSocket } = React.useContext(ContainerContext);
+
+    React.useEffect(() => {
+        if (webSocket.onChangeData != null && prevData != webSocket.onChangeData) {
+            prevData = webSocket.onChangeData;
+            var aux2 = JSON.parse(sessionStorage.getItem(currentChat));
+            aux2.Messages.push(prevData.Payload);
+            sessionStorage.setItem(currentChat, JSON.stringify(aux2));
+            setUpdateChat(prevData.Payload);
+        }
+    });
 
     React.useEffect(() => {
         if (!dataContainerChat.isOpened) {
             getConversations().then(myJson => {
                 setChats(myJson);
-                setDataContainerChat({...dataContainerChat,isOpened:true,Conversations:myJson});
+                setDataContainerChat({ ...dataContainerChat, isOpened: true, Conversations: myJson });
             });
-        }else{
+        } else {
             setChats(dataContainerChat.Conversations);
         }
     }, []);
