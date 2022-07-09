@@ -6,33 +6,13 @@ var image = "https://scontent.fvvc1-1.fna.fbcdn.net/v/t1.6435-1/201990428_433180
 var dataUser = null;
 var banner = "https://es.normandie-tourisme.fr/wp-content/uploads/sites/7/2020/01/8118-Mont-Saint-Michel-couleur-dautomne-%C2%A9-DaLiu-Shutterstock.com-%C2%A9-DaLiu-Shutterstock.com_.jpg";
 
-export default function ChatWindowComponent({ currentChat }) {
+export default function ChatWindowComponent() {
 
     const [visibleData, setVisibleData] = React.useState(false);
-    const [actualCurrentChat, setActualCurrentChat] = React.useState(null);
     const [queryingDataStatus, setQueryingDataStatus] = React.useState(true);
-    const { setUpdateChat } = React.useContext(ChatContext);
-    const { webSocket } = React.useContext(ContainerContext);
+    const { dataContainerChat, setDataContainerChat, webSocket } = React.useContext(ContainerContext);
     const inputMsg = React.useRef();
     const msgContainer = React.useRef();
-
-    function inputKeyPress(e) {
-        if (e.key === 'Enter') {
-            msgOut();
-        }
-    }
-
-    function msgOut() {
-        if (inputMsg.current.value != '' & inputMsg.current.value.trim() != "") {
-            webSocket.send_msg(JSON.stringify({ ShutIdR: currentChat, Message: inputMsg.current.value }));
-            var aux = { Message: inputMsg.current.value, current: currentChat, From: window.localStorage.getItem("ShutId"), Time: { $numberLong: (+new Date()) } };
-            var aux2 = JSON.parse(sessionStorage.getItem(currentChat));
-            aux2.Messages.push(aux);
-            sessionStorage.setItem(currentChat, JSON.stringify(aux2));
-            setUpdateChat(aux);
-        }
-        inputMsg.current.value = "";
-    }
 
     function toogleVisibleData() {
         if (visibleData) {
@@ -42,11 +22,27 @@ export default function ChatWindowComponent({ currentChat }) {
         }
     }
 
+
+    function inputKeyPress(e) {
+        if (e.key === 'Enter') {
+            msgOut();
+        }
+    }
+
+    function msgOut() {
+        if (inputMsg.current.value != '' & inputMsg.current.value.trim() != "") {
+            webSocket.send_msg(JSON.stringify({ ShutIdR: dataContainerChat.CurrentChat, Message: inputMsg.current.value }));
+            var aux = JSON.parse(sessionStorage.getItem(dataContainerChat.CurrentChat));
+            aux.Messages.push( { Message: inputMsg.current.value, current: dataContainerChat.CurrentChat, From: window.localStorage.getItem("ShutId"), Time: { $numberLong: (+new Date()) } });
+            sessionStorage.setItem(dataContainerChat.CurrentChat, JSON.stringify(aux));
+            setDataContainerChat({ ...dataContainerChat, UpdateChatCard: dataContainerChat.CurrentChat,CurrentConversation:aux.Messages });
+        }
+        inputMsg.current.value = "";
+    }
+
     React.useEffect(() => {
-        dataUser = JSON.parse(sessionStorage.getItem(currentChat));
-        setActualCurrentChat(currentChat);
         setQueryingDataStatus(false);
-    });
+    }, [])
 
     return (
         <div className="ChatWindowComponent">
@@ -54,10 +50,10 @@ export default function ChatWindowComponent({ currentChat }) {
                 <div className="header">
                     <div className="imgBx" onClick={() => (toogleVisibleData())}>
                         <img src={image} alt="xd" />
-                        {dataUser == null ? null : dataUser.data[0].CurrentState == "Online" ? <div className="state" /> : null}
+                        {dataUser == null ? null : dataContainerChat.DataCurrentUser.CurrentState == "Online" ? <div className="state" /> : null}
                     </div>
                     <div className="dataUser" onClick={() => (toogleVisibleData())}>
-                        {queryingDataStatus ? null : (<h3>{dataUser.data[0].Username}<br /><span>{dataUser.data[0].Name + " " + dataUser.data[0].Lastname + " - " + (dataUser.data[0].CurrentState == "Online" ? 'En linea' : 'Desconectado')}</span></h3>)}
+                        {queryingDataStatus ? null : (<h3>{dataContainerChat.DataCurrentUser.Username}<br /><span>{dataContainerChat.DataCurrentUser.Name + " " + dataContainerChat.DataCurrentUser.Lastname + " - " + (dataContainerChat.DataCurrentUser.CurrentState == "Online" ? 'En linea' : 'Desconectado')}</span></h3>)}
                     </div>
                     <div className="actionBtns">
                         <div className="btn_custom">
@@ -70,8 +66,8 @@ export default function ChatWindowComponent({ currentChat }) {
                 </div>
                 <div className="messagesContainer" ref={msgContainer}>
                     {queryingDataStatus ? null : (
-                        dataUser.Messages.map((element, key) => (
-                            <MessageCard msg={element.Message} time={parseInt(element.Time.$numberLong)} transmitter={element.From != currentChat ? 'Me' : 'Other'} key={key} scroll={msgContainer.current} />
+                        dataContainerChat.CurrentConversation.map((element, key) => (
+                            <MessageCard msg={element.Message} time={parseInt(element.Time.$numberLong)} transmitter={element.From != dataContainerChat.CurrentChat ? 'Me' : 'Other'} key={key} scroll={msgContainer.current} />
                         ))
                     )}
                 </div>
@@ -88,7 +84,7 @@ export default function ChatWindowComponent({ currentChat }) {
                     </div>
                 </div>
                 <div className="dataUser">
-                    {queryingDataStatus ? null : (<h3>{dataUser.data[0].Name + " " + dataUser.data[0].Lastname}</h3>)}
+                    {queryingDataStatus ? null : (<h3>{dataContainerChat.DataCurrentUser.Name + " " + dataContainerChat.DataCurrentUser.Lastname}</h3>)}
                 </div>
             </div>
         </div>

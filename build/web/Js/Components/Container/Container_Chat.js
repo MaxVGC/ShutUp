@@ -3,7 +3,6 @@ import { ProviderChat } from './Container_Chat/ChatContext.js';
 import ContainerContext from './ContainerContext.js';
 import SearchFriendComponent from "./Container_Chat/SearchFriendComponent.js";
 import ChatWindowComponent from "./Container_Chat/ChatWindowComponent.js";
-var prevData;
 
 async function getConversations() {
   let response = await fetch("http://localhost:8080/ShutUp/getConversations?shutid=" + window.localStorage.getItem("ShutId") + "&range=20&friend=none");
@@ -13,7 +12,6 @@ async function getConversations() {
 
 export function Container_Chat() {
   const [showFriends, setShowFriends] = React.useState(false);
-  const [currentChat, setCurrentChat] = React.useState(null);
   const [chats, setChats] = React.useState(null);
   const [updateChat, setUpdateChat] = React.useState(null);
   const {
@@ -22,27 +20,22 @@ export function Container_Chat() {
     webSocket
   } = React.useContext(ContainerContext);
   React.useEffect(() => {
-    if (webSocket.onChangeData != null && prevData != webSocket.onChangeData) {
-      prevData = webSocket.onChangeData;
-      var aux2 = JSON.parse(sessionStorage.getItem(currentChat));
-      aux2.Messages.push(prevData.Payload);
-      sessionStorage.setItem(currentChat, JSON.stringify(aux2));
-      setUpdateChat(prevData.Payload);
-    }
-  });
-  React.useEffect(() => {
     if (!dataContainerChat.isOpened) {
       getConversations().then(myJson => {
         setChats(myJson);
         setDataContainerChat({ ...dataContainerChat,
           isOpened: true,
-          Conversations: myJson
+          Conversations: myJson.Conversations,
+          TimesOpened: dataContainerChat.TimesOpened + 1
         });
       });
-    } else {
-      setChats(dataContainerChat.Conversations);
     }
   }, []);
+  React.useEffect(() => {
+    if (dataContainerChat.TimesOpened == 1) {
+      setChats(dataContainerChat);
+    }
+  });
   return /*#__PURE__*/React.createElement(ProviderChat, {
     value: {
       updateChat,
@@ -77,14 +70,12 @@ export function Container_Chat() {
   }, chats == null ? null : chats.Conversations.map((element, key) => /*#__PURE__*/React.createElement(ChatCard, {
     key: key,
     data: element,
-    setCurrentChat: setCurrentChat
+    n: key
   })))), /*#__PURE__*/React.createElement("div", {
     className: "col-md-9 chat-window",
     style: {
       padding: 0
     }
-  }, currentChat != null ? /*#__PURE__*/React.createElement(ChatWindowComponent, {
-    currentChat: currentChat
-  }) : null))));
+  }, dataContainerChat.CurrentChat != null ? /*#__PURE__*/React.createElement(ChatWindowComponent, null) : null))));
 }
 export default Container_Chat;

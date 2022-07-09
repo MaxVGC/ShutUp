@@ -10,7 +10,7 @@ async function getDataUser(shutid) {
 
 export function ChatCard({
   data,
-  setCurrentChat
+  n
 }) {
   const [dataUserChatCard, setDataUserChatCard] = React.useState();
   const [date, setDate] = React.useState();
@@ -18,25 +18,40 @@ export function ChatCard({
   const [ShutidFriend, setShutidFriend] = React.useState();
   const [lastMsg, setLastMsg] = React.useState(0);
   const {
-    updateChat,
-    setUpdateChat
-  } = React.useContext(ChatContext);
-  const {
-    webSocket
+    dataContainerChat,
+    setDataContainerChat
   } = React.useContext(ContainerContext);
+
+  function initializeChatCard(DataUser) {
+    var lng = DataUser.Messages.length - 1;
+    setLastMsg(lng);
+    setDate(new Date(parseInt(DataUser.Messages[lng].Time.$numberLong)));
+    setQueryingDataStatus(false);
+  }
+
   React.useEffect(() => {
-    if (updateChat != null && updateChat.current == ShutidFriend) {
-      var aux = data.Participants[0] != window.localStorage.getItem("ShutId") ? aux = 0 : aux = 1;
-      setDataUserChatCard(JSON.parse(sessionStorage.getItem(updateChat.current)));
-      initializeChatCard(JSON.parse(sessionStorage.getItem(updateChat.current)), aux);
-      setUpdateChat(null);
+    if (dataContainerChat.UpdateChatCard != null && dataContainerChat.UpdateChatCard == ShutidFriend) {
+      var aux = JSON.parse(sessionStorage.getItem(dataContainerChat.UpdateChatCard)).Messages;
+      var lng = aux.length - 1;
+      setLastMsg(lng);
+      setDate(new Date(parseInt(aux[lng].Time.$numberLong)));
+      setDataUserChatCard({ ...dataUserChatCard,
+        Messages: aux
+      });
+      var x = dataContainerChat.Conversations;
+      x[n].Messages = aux;
+      setDataContainerChat({ ...dataContainerChat,
+        UpdateChatCard: null,
+        Conversations: x
+      });
     }
   });
   React.useEffect(() => {
     var aux = data.Participants[0] != window.localStorage.getItem("ShutId") ? aux = 0 : aux = 1;
     var SSData = JSON.parse(sessionStorage.getItem(data.Participants[aux]));
+    setShutidFriend(data.Participants[aux]); //Quitar SSData==null para actualizar cada vez que se inicia
 
-    if (SSData == null) {
+    if (dataContainerChat.TimesOpened == 1 && SSData == null) {
       getDataUser(data.Participants[aux]).then(myJson => {
         sessionStorage.setItem(data.Participants[aux], JSON.stringify({ ...myJson,
           ...data
@@ -46,27 +61,22 @@ export function ChatCard({
         });
         initializeChatCard({ ...myJson,
           ...data
-        }, aux);
+        });
       });
     } else {
+      setDataUserChatCard(SSData);
       SSData.Messages = data.Messages;
       sessionStorage.setItem(data.Participants[aux], JSON.stringify(SSData));
-      setDataUserChatCard(SSData);
-      initializeChatCard(SSData, aux);
+      initializeChatCard(SSData);
     }
   }, []);
-
-  function initializeChatCard(dataUserChatCard, aux) {
-    var lng = dataUserChatCard.Messages.length - 1;
-    setLastMsg(lng);
-    setDate(new Date(parseInt(dataUserChatCard.Messages[lng].Time.$numberLong)));
-    setShutidFriend(data.Participants[aux]);
-    setQueryingDataStatus(false);
-  }
-
   return /*#__PURE__*/React.createElement("div", {
     className: "chat_card",
-    onClick: () => queryingDataStatus ? null : setCurrentChat(ShutidFriend)
+    onClick: () => queryingDataStatus ? null : setDataContainerChat({ ...dataContainerChat,
+      CurrentChat: ShutidFriend,
+      DataCurrentUser: dataUserChatCard.data[0],
+      CurrentConversation: dataUserChatCard.Messages
+    })
   }, queryingDataStatus ? "xd" : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "imgProfile",
     style: {

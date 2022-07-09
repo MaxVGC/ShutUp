@@ -4,20 +4,24 @@ import ContainerContext from './../ContainerContext.js';
 var image = "https://scontent.fvvc1-1.fna.fbcdn.net/v/t1.6435-1/201990428_4331801176852187_1249459949626412878_n.jpg?stp=dst-jpg_p200x200&_nc_cat=105&ccb=1-7&_nc_sid=7206a8&_nc_eui2=AeErfmR8vagZAj-Vz3fmm0MhY-dJB-ohgV1j50kH6iGBXal8V5dFM1jugGXsEGT2-pbtUZBvJkrBufH85A6LWv1g&_nc_ohc=g6Ud48jrogoAX8xHjlq&_nc_ht=scontent.fvvc1-1.fna&oh=00_AT9li9zhnyFOlF34C2mgZ5oUTVEK_fDk0tAtUXzg8HSWNA&oe=62D4D6F4";
 var dataUser = null;
 var banner = "https://es.normandie-tourisme.fr/wp-content/uploads/sites/7/2020/01/8118-Mont-Saint-Michel-couleur-dautomne-%C2%A9-DaLiu-Shutterstock.com-%C2%A9-DaLiu-Shutterstock.com_.jpg";
-export default function ChatWindowComponent({
-  currentChat
-}) {
+export default function ChatWindowComponent() {
   const [visibleData, setVisibleData] = React.useState(false);
-  const [actualCurrentChat, setActualCurrentChat] = React.useState(null);
   const [queryingDataStatus, setQueryingDataStatus] = React.useState(true);
   const {
-    setUpdateChat
-  } = React.useContext(ChatContext);
-  const {
+    dataContainerChat,
+    setDataContainerChat,
     webSocket
   } = React.useContext(ContainerContext);
   const inputMsg = React.useRef();
   const msgContainer = React.useRef();
+
+  function toogleVisibleData() {
+    if (visibleData) {
+      setVisibleData(false);
+    } else {
+      setVisibleData(true);
+    }
+  }
 
   function inputKeyPress(e) {
     if (e.key === 'Enter') {
@@ -28,39 +32,31 @@ export default function ChatWindowComponent({
   function msgOut() {
     if (inputMsg.current.value != '' & inputMsg.current.value.trim() != "") {
       webSocket.send_msg(JSON.stringify({
-        ShutIdR: currentChat,
+        ShutIdR: dataContainerChat.CurrentChat,
         Message: inputMsg.current.value
       }));
-      var aux = {
+      var aux = JSON.parse(sessionStorage.getItem(dataContainerChat.CurrentChat));
+      aux.Messages.push({
         Message: inputMsg.current.value,
-        current: currentChat,
+        current: dataContainerChat.CurrentChat,
         From: window.localStorage.getItem("ShutId"),
         Time: {
           $numberLong: +new Date()
         }
-      };
-      var aux2 = JSON.parse(sessionStorage.getItem(currentChat));
-      aux2.Messages.push(aux);
-      sessionStorage.setItem(currentChat, JSON.stringify(aux2));
-      setUpdateChat(aux);
+      });
+      sessionStorage.setItem(dataContainerChat.CurrentChat, JSON.stringify(aux));
+      setDataContainerChat({ ...dataContainerChat,
+        UpdateChatCard: dataContainerChat.CurrentChat,
+        CurrentConversation: aux.Messages
+      });
     }
 
     inputMsg.current.value = "";
   }
 
-  function toogleVisibleData() {
-    if (visibleData) {
-      setVisibleData(false);
-    } else {
-      setVisibleData(true);
-    }
-  }
-
   React.useEffect(() => {
-    dataUser = JSON.parse(sessionStorage.getItem(currentChat));
-    setActualCurrentChat(currentChat);
     setQueryingDataStatus(false);
-  });
+  }, []);
   return /*#__PURE__*/React.createElement("div", {
     className: "ChatWindowComponent"
   }, /*#__PURE__*/React.createElement("div", {
@@ -73,12 +69,12 @@ export default function ChatWindowComponent({
   }, /*#__PURE__*/React.createElement("img", {
     src: image,
     alt: "xd"
-  }), dataUser == null ? null : dataUser.data[0].CurrentState == "Online" ? /*#__PURE__*/React.createElement("div", {
+  }), dataUser == null ? null : dataContainerChat.DataCurrentUser.CurrentState == "Online" ? /*#__PURE__*/React.createElement("div", {
     className: "state"
   }) : null), /*#__PURE__*/React.createElement("div", {
     className: "dataUser",
     onClick: () => toogleVisibleData()
-  }, queryingDataStatus ? null : /*#__PURE__*/React.createElement("h3", null, dataUser.data[0].Username, /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("span", null, dataUser.data[0].Name + " " + dataUser.data[0].Lastname + " - " + (dataUser.data[0].CurrentState == "Online" ? 'En linea' : 'Desconectado')))), /*#__PURE__*/React.createElement("div", {
+  }, queryingDataStatus ? null : /*#__PURE__*/React.createElement("h3", null, dataContainerChat.DataCurrentUser.Username, /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("span", null, dataContainerChat.DataCurrentUser.Name + " " + dataContainerChat.DataCurrentUser.Lastname + " - " + (dataContainerChat.DataCurrentUser.CurrentState == "Online" ? 'En linea' : 'Desconectado')))), /*#__PURE__*/React.createElement("div", {
     className: "actionBtns"
   }, /*#__PURE__*/React.createElement("div", {
     className: "btn_custom"
@@ -91,10 +87,10 @@ export default function ChatWindowComponent({
   })))), /*#__PURE__*/React.createElement("div", {
     className: "messagesContainer",
     ref: msgContainer
-  }, queryingDataStatus ? null : dataUser.Messages.map((element, key) => /*#__PURE__*/React.createElement(MessageCard, {
+  }, queryingDataStatus ? null : dataContainerChat.CurrentConversation.map((element, key) => /*#__PURE__*/React.createElement(MessageCard, {
     msg: element.Message,
     time: parseInt(element.Time.$numberLong),
-    transmitter: element.From != currentChat ? 'Me' : 'Other',
+    transmitter: element.From != dataContainerChat.CurrentChat ? 'Me' : 'Other',
     key: key,
     scroll: msgContainer.current
   }))), /*#__PURE__*/React.createElement("div", {
@@ -122,5 +118,5 @@ export default function ChatWindowComponent({
     alt: "Profile image"
   }))), /*#__PURE__*/React.createElement("div", {
     className: "dataUser"
-  }, queryingDataStatus ? null : /*#__PURE__*/React.createElement("h3", null, dataUser.data[0].Name + " " + dataUser.data[0].Lastname))));
+  }, queryingDataStatus ? null : /*#__PURE__*/React.createElement("h3", null, dataContainerChat.DataCurrentUser.Name + " " + dataContainerChat.DataCurrentUser.Lastname))));
 }
