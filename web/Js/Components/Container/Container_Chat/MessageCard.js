@@ -1,9 +1,10 @@
 export default function MessageCard({
   msg,
   transmitter,
-  scroll
+  scroll,
+  time
 }) {
-  var currentTime = new Date();
+  var currentTime = new Date(time);
   React.useEffect(() => {
     scroll.scrollTop = scroll.scrollHeight;
   }, []);

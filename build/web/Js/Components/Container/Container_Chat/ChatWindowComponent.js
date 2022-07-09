@@ -23,12 +23,17 @@ export default function ChatWindowComponent({
 
   function msgOut() {
     if (inputMsg.current.value != '' & inputMsg.current.value.trim() != "") {
-      //send_msg(inputMsg.current.value);
+      send_msg(JSON.stringify({
+        ShutIdR: currentChat,
+        Message: inputMsg.current.value
+      }));
       var aux = {
         Message: inputMsg.current.value,
         current: currentChat,
         From: window.localStorage.getItem("ShutId"),
-        Time: +new Date() / 1000
+        Time: {
+          $numberLong: +new Date()
+        }
       };
       var aux2 = JSON.parse(sessionStorage.getItem(currentChat));
       aux2.Messages.push(aux);
@@ -84,7 +89,8 @@ export default function ChatWindowComponent({
     ref: msgContainer
   }, queryingDataStatus ? null : dataUser.Messages.map((element, key) => /*#__PURE__*/React.createElement(MessageCard, {
     msg: element.Message,
-    transmitter: 'Me',
+    time: parseInt(element.Time.$numberLong),
+    transmitter: element.From != currentChat ? 'Me' : 'Other',
     key: key,
     scroll: msgContainer.current
   }))), /*#__PURE__*/React.createElement("div", {

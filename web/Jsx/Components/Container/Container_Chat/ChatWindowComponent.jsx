@@ -24,8 +24,8 @@ export default function ChatWindowComponent({ currentChat }) {
 
     function msgOut() {
         if (inputMsg.current.value != '' & inputMsg.current.value.trim() != "") {
-            //send_msg(inputMsg.current.value);
-            var aux = { Message: inputMsg.current.value, current: currentChat, From: window.localStorage.getItem("ShutId"), Time: (+new Date()) / 1000 };
+            send_msg(JSON.stringify({ShutIdR:currentChat,Message:inputMsg.current.value}));
+            var aux = { Message: inputMsg.current.value, current: currentChat, From: window.localStorage.getItem("ShutId"), Time: {$numberLong:(+new Date())} };
             var aux2 = JSON.parse(sessionStorage.getItem(currentChat));
             aux2.Messages.push(aux);
             sessionStorage.setItem(currentChat, JSON.stringify(aux2));
@@ -71,10 +71,9 @@ export default function ChatWindowComponent({ currentChat }) {
                 <div className="messagesContainer" ref={msgContainer}>
                     {queryingDataStatus ? null : (
                         dataUser.Messages.map((element, key) => (
-                            <MessageCard msg={element.Message} transmitter={'Me'} key={key} scroll={msgContainer.current} />
+                            <MessageCard msg={element.Message} time={parseInt(element.Time.$numberLong)} transmitter={element.From!=currentChat?'Me':'Other'} key={key} scroll={msgContainer.current} />
                         ))
                     )}
-
                 </div>
                 <div className="inputChatWindow">
                     <ion-icon name="happy-outline"></ion-icon>

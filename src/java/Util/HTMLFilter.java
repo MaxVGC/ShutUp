@@ -29,7 +29,6 @@ public final class HTMLFilter {
                     result.append(c);
             }
         }
-        System.out.println(result.toString());
         return result.toString();
     }
 

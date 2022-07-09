@@ -39,7 +39,7 @@ public class ValidateUser extends HttpServlet {
             switch (flag) {
                 case 1:
                     u.connect();
-                    response.sendRedirect("Pages/home.html");
+                    response.sendRedirect("Pages/home.html?uuid="+u.getShutId());
                     break;
                 case 0:
                     response.sendRedirect("Pages/login.html?alert=1");

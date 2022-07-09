@@ -4,6 +4,7 @@
  */
 package WebSocket;
 
+import Clases.Conversations;
 import Clases.Users;
 import jakarta.websocket.server.ServerEndpoint;
 import jakarta.websocket.OnClose;
@@ -20,6 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicInteger;
 import Util.HTMLFilter;
+import org.json.JSONObject;
 
 /**
  *
@@ -29,6 +31,7 @@ import Util.HTMLFilter;
 
 public class Chats {
 
+    private Conversations Conversation = null;
     private static final Map<String, Users> users = new ConcurrentHashMap();
     private static final String GUEST_PREFIX = "Guest";
     private static final AtomicInteger connectionIds = new AtomicInteger(0);
@@ -37,6 +40,7 @@ public class Chats {
 
     private final String nickname;
     private Session session;
+    JSONObject jsonReader = null;
 
     public Chats() {
         nickname = GUEST_PREFIX + connectionIds.getAndIncrement();
@@ -53,7 +57,7 @@ public class Chats {
     }
 
     @OnClose
-    public void end( @PathParam("shutid") String shutid) {
+    public void end(@PathParam("shutid") String shutid) {
         connections.remove(this);
         users.get(shutid).disconnect();
         String message = String.format("* %s %s",
@@ -62,10 +66,12 @@ public class Chats {
     }
 
     @OnMessage
-    public void incoming(String message) {
+    public void incoming(String message, @PathParam("shutid") String shutid) {
         try {
-            System.out.println(message);
-            String filteredMessage = HTMLFilter.filter(message);
+            jsonReader = new JSONObject(message);
+            Conversation = new Conversations(users.get(shutid));
+            String filteredMessage = HTMLFilter.filter(jsonReader.getString("Message"));
+            Conversation.SendMessage( jsonReader.getString("ShutIdR"), filteredMessage);
             broadcast(filteredMessage);
         } catch (Exception e) {
             System.out.println(e);

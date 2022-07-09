@@ -1,7 +1,7 @@
 var webSocket;
 var nickname = window.localStorage.getItem("ShutId");
 
-//initWebSocket(nickname);
+initWebSocket(nickname);
 
 function initWebSocket(nickname) {
     if ("WebSocket" in window) {
@@ -18,6 +18,14 @@ function initWebSocket(nickname) {
         }
     }
 
+    function send_msg(input_msg) {
+        if (webSocket != null) {        
+            webSocket.send(input_msg);
+        } else {
+            alert("Estás desconectado, vuelve a ingresar a la sala de chat ...");
+        }
+    };
+
     webSocket.onopen = function() {
         console.log("entre");
     };
@@ -27,10 +35,3 @@ function initWebSocket(nickname) {
     };
 }
 
-function send_msg(input_msg) {
-    if (webSocket != null) {        
-        webSocket.send(input_msg);
-    } else {
-        alert("Estás desconectado, vuelve a ingresar a la sala de chat ...");
-    }
-};

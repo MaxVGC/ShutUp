@@ -46,7 +46,7 @@ export function ChatCard({ data, setCurrentChat }) {
     function initializeChatCard(dataUserChatCard, aux) {
         var lng = dataUserChatCard.Messages.length - 1;
         setLastMsg(lng);
-        setDate(new Date(dataUserChatCard.Messages[lng].Time * 1000));
+        setDate(new Date(parseInt(dataUserChatCard.Messages[lng].Time.$numberLong)));
         setShutidFriend(data.Participants[aux]);
         setQueryingDataStatus(false);
     }
