@@ -72,8 +72,13 @@ public class Chats {
             jsonReader = new JSONObject(message);
             Conversation = new Conversations(users.get(shutid));
             String filteredMessage = HTMLFilter.filter(jsonReader.getString("Message"));
-            broadcast(jsonReader.getString("ShutIdR"), "{\"Type\":\"Message\",\"Payload\":{\"Message\":\"" + filteredMessage + "\",\"From\":\"" + shutid + "\",\"For\":\"" + jsonReader.getString("ShutIdR") + "\",\"Time\":{\"$numberLong\":" + new Timestamp(System.currentTimeMillis()).getTime() + "}}}");
-           // Conversation.SendMessage(jsonReader.getString("ShutIdR"), filteredMessage);
+            if (jsonReader.getString("Type").equals("Message")) {
+                broadcast(jsonReader.getString("ShutIdR"), "{\"Type\":\"Message\",\"Payload\":{\"Message\":\"" + filteredMessage + "\",\"From\":\"" + shutid + "\",\"For\":\"" + jsonReader.getString("ShutIdR") + "\",\"Time\":{\"$numberLong\":" + new Timestamp(System.currentTimeMillis()).getTime() + "}}}");
+                Conversation.SendMessage(jsonReader.getString("ShutIdR"), filteredMessage);
+            } else if (jsonReader.getString("Type").equals("NewMessage")) {
+                Conversation.setNewConversation(jsonReader.getString("ShutIdR"), filteredMessage);
+                broadcast(jsonReader.getString("ShutIdR"), "{\"Type\":\"NewMessage\",\"Payload\":{\"From\":\""+shutid+"\"}}");
+            }
         } catch (Exception e) {
             System.out.println(e);
         }

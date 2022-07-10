@@ -10,7 +10,7 @@ async function getFriends() {
 }
 
 export default function SearchFriendComponent({ setShowFriends}) {
-    const [queryStatus, setQueryStatus] = React.useState();
+    const [queryStatus, setQueryStatus] = React.useState(true);
     const [value, setValue] = React.useState('');
 
     const input = React.useRef();
@@ -36,19 +36,17 @@ export default function SearchFriendComponent({ setShowFriends}) {
                         <input ref={input} type="text" placeholder="Busqueda por nombre" onChange={(e) => changeInput(e.target.value)} />
                         <ion-icon name="close" onClick={() => (setShowFriends(false))} style={{ fontSize: '25px' }}></ion-icon>
                     </div>
-                    {users == null ? (
+                    {queryStatus ? (
                         <div className="img-loading">
-                            <img src="/Assets/loading.svg" alt="Loading" />
+                            <img src="/ShutUp/Assets/loading.svg" alt="Loading" />
                         </div>
                     ) : (
                         <div ref={ref} className="data-search" >
                             {users.friends.map((element, key) => (
                                 element.Name.toLowerCase().includes(value.toLowerCase())?<FriendContactCard data={element} key={key} setShowFriends={setShowFriends}/>:null
                             ))}
-
                         </div>
                     )}
-
                 </div>
             </div>
         </>

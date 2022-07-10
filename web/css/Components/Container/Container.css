@@ -45,7 +45,7 @@ body {
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    background-image: url('/Assets/loading.svg');
+    background-image: url('/ShutUp/Assets/loading.svg');
 }
 
 .Container_Home .welcome-title h2 {
@@ -53,12 +53,12 @@ body {
 }
 
 .Container_Home .welcome-title.nightfall {
-    background-image: url('/Assets/Container/nightfall.svg');
+    background-image: url('/ShutUp/Assets/Container/nightfall.svg');
     background-position-y: -135px;
 }
 
 .Container_Home .welcome-title.sunset {
-    background-image: url('/Assets/Container/sunset.svg');
+    background-image: url('/ShutUp/Assets/Container/sunset.svg');
     background-position-y: -215px;
 }
 

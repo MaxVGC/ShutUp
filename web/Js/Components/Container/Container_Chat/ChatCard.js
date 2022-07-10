@@ -51,7 +51,7 @@ export function ChatCard({
     var SSData = JSON.parse(sessionStorage.getItem(data.Participants[aux]));
     setShutidFriend(data.Participants[aux]); //Quitar SSData==null para actualizar cada vez que se inicia
 
-    if (dataContainerChat.TimesOpened == 1 && SSData == null) {
+    if (SSData == null) {
       getDataUser(data.Participants[aux]).then(myJson => {
         sessionStorage.setItem(data.Participants[aux], JSON.stringify({ ...data,
           data: myJson.data[0]
@@ -64,10 +64,24 @@ export function ChatCard({
         });
       });
     } else {
-      setDataUserChatCard(SSData);
-      SSData.Messages = data.Messages;
-      sessionStorage.setItem(data.Participants[aux], JSON.stringify(SSData));
-      initializeChatCard(SSData);
+      if (SSData.data == null) {
+        getDataUser(data.Participants[aux]).then(myJson => {
+          sessionStorage.setItem(data.Participants[aux], JSON.stringify({ ...data,
+            data: myJson.data[0]
+          }));
+          setDataUserChatCard({ ...data,
+            data: myJson.data[0]
+          });
+          initializeChatCard({ ...data,
+            data: myJson.data[0]
+          });
+        });
+      } else {
+        setDataUserChatCard(SSData);
+        SSData.Messages = data.Messages;
+        sessionStorage.setItem(data.Participants[aux], JSON.stringify(SSData));
+        initializeChatCard(SSData);
+      }
     }
   }, []);
   return /*#__PURE__*/React.createElement("div", {

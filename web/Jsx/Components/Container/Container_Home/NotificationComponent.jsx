@@ -54,7 +54,7 @@ export default function NotificationComponent() {
                         ))
                     ) : (
                         <div className="emptyRequest">
-                            <img src="/Assets/empty.png" alt="" />
+                            <img src="/ShutUp/Assets/empty.png" alt="" />
                             <span style={{ color: 'white', marginTop: '10px', textAlign: 'center' }}>No hay notificaciones nuevas</span>
                         </div>
                     )
@@ -63,7 +63,7 @@ export default function NotificationComponent() {
                             <NotificationFriendCard data={element} key={key} setUpdate={updateNotifications} />
                         ))) : (
                             <div className="emptyRequest">
-                                <img src="/Assets/empty2.png" alt="" />
+                                <img src="/ShutUp/Assets/empty2.png" alt="" />
                                 <span style={{ color: 'white', marginTop: '10px', textAlign: 'center' }}>No hay solicitudes nuevas</span>
                             </div>
                         )

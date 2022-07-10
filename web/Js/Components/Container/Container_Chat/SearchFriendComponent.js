@@ -11,7 +11,7 @@ async function getFriends() {
 export default function SearchFriendComponent({
   setShowFriends
 }) {
-  const [queryStatus, setQueryStatus] = React.useState();
+  const [queryStatus, setQueryStatus] = React.useState(true);
   const [value, setValue] = React.useState('');
   const input = React.useRef();
   const ref = React.useRef();
@@ -49,10 +49,10 @@ export default function SearchFriendComponent({
     style: {
       fontSize: '25px'
     }
-  })), users == null ? /*#__PURE__*/React.createElement("div", {
+  })), queryStatus ? /*#__PURE__*/React.createElement("div", {
     className: "img-loading"
   }, /*#__PURE__*/React.createElement("img", {
-    src: "/Assets/loading.svg",
+    src: "/ShutUp/Assets/loading.svg",
     alt: "Loading"
   })) : /*#__PURE__*/React.createElement("div", {
     ref: ref,

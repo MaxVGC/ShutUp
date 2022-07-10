@@ -1,5 +1,4 @@
 import ChatCard from "./Container_Chat/ChatCard.js";
-import { ProviderChat } from './Container_Chat/ChatContext.js';
 import ContainerContext from './ContainerContext.js';
 import SearchFriendComponent from "./Container_Chat/SearchFriendComponent.js";
 import ChatWindowComponent from "./Container_Chat/ChatWindowComponent.js";
@@ -12,31 +11,24 @@ async function getConversations() {
 
 export function Container_Chat() {
   const [showFriends, setShowFriends] = React.useState(false);
-  const [chats, setChats] = React.useState(null);
-  const [updateChat, setUpdateChat] = React.useState(null);
+  const [update, setUpdate] = React.useState(true);
   const {
     dataContainerChat,
     setDataContainerChat,
     webSocket
   } = React.useContext(ContainerContext);
-  const [filter, setFilter] = React.useState('');
   React.useEffect(() => {
-    if (!dataContainerChat.isOpened) {
+    if (dataContainerChat.Conversations == null) {
       getConversations().then(myJson => {
-        setChats(myJson);
         setDataContainerChat({ ...dataContainerChat,
           isOpened: true,
           Conversations: myJson.Conversations,
           TimesOpened: dataContainerChat.TimesOpened + 1
         });
+        setUpdate(false);
       });
     }
   }, []);
-  React.useEffect(() => {
-    if (dataContainerChat.TimesOpened == 1) {
-      setChats(dataContainerChat);
-    }
-  });
   return /*#__PURE__*/React.createElement("div", {
     className: "Container_Chat"
   }, /*#__PURE__*/React.createElement("div", {
@@ -59,11 +51,10 @@ export function Container_Chat() {
     className: "row search-chat"
   }, /*#__PURE__*/React.createElement("input", {
     type: "text",
-    placeholder: "Buscar conversacion",
-    onChange: e => setFilter(e.target.value)
+    placeholder: "Buscar conversacion"
   })), /*#__PURE__*/React.createElement("div", {
     className: "row conversations"
-  }, chats == null ? null : chats.Conversations.map((element, key) => /*#__PURE__*/React.createElement(ChatCard, {
+  }, dataContainerChat.Conversations == null ? null : dataContainerChat.Conversations.map((element, key) => /*#__PURE__*/React.createElement(ChatCard, {
     key: key,
     data: element,
     n: key

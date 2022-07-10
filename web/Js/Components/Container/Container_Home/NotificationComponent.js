@@ -51,7 +51,7 @@ export default function NotificationComponent() {
   }, active == 0 ? Notifications.recent != null ? Notifications.recent.map((element, key) => console.log(Notifications)) : /*#__PURE__*/React.createElement("div", {
     className: "emptyRequest"
   }, /*#__PURE__*/React.createElement("img", {
-    src: "/Assets/empty.png",
+    src: "/ShutUp/Assets/empty.png",
     alt: ""
   }), /*#__PURE__*/React.createElement("span", {
     style: {
@@ -66,7 +66,7 @@ export default function NotificationComponent() {
   })) : /*#__PURE__*/React.createElement("div", {
     className: "emptyRequest"
   }, /*#__PURE__*/React.createElement("img", {
-    src: "/Assets/empty2.png",
+    src: "/ShutUp/Assets/empty2.png",
     alt: ""
   }), /*#__PURE__*/React.createElement("span", {
     style: {
