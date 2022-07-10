@@ -30,6 +30,11 @@ const initWebSocket = () => {
     webSocket.onmessage = function (evt) {
         setData(JSON.parse(evt.data));
     };
+
+    webSocket.onclose=function(){
+        sessionStorage.clear();
+    };
+
     return { webSocket, send_msg, setData, onChangeData };
 }
 

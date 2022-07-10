@@ -5,6 +5,7 @@ import Context from './Context.js';
 const Container = document.getElementById('container-fluid');
 const Root_container = ReactDOM.createRoot(Container);
 var miStorage = window.localStorage;
+sessionStorage.clear();
 miStorage.setItem('ShutId', new URLSearchParams(location.search).get("uuid"));
 
 const Index = () => {

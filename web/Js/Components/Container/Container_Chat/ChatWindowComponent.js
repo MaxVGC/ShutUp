@@ -30,27 +30,52 @@ export default function ChatWindowComponent() {
   }
 
   function msgOut() {
-    if (inputMsg.current.value != '' & inputMsg.current.value.trim() != "") {
-      webSocket.send_msg(JSON.stringify({
-        ShutIdR: dataContainerChat.CurrentChat,
-        Message: inputMsg.current.value
-      }));
-      var aux = JSON.parse(sessionStorage.getItem(dataContainerChat.CurrentChat));
-      aux.Messages.push({
+    if (inputMsg.current.value != '' && inputMsg.current.value.trim() != "") {
+      var Message = {
         Message: inputMsg.current.value,
         current: dataContainerChat.CurrentChat,
         From: window.localStorage.getItem("ShutId"),
         Time: {
           $numberLong: +new Date()
         }
-      });
-      sessionStorage.setItem(dataContainerChat.CurrentChat, JSON.stringify(aux));
-      setDataContainerChat({ ...dataContainerChat,
-        UpdateChatCard: dataContainerChat.CurrentChat,
-        CurrentConversation: aux.Messages
-      });
+      };
+
+      if (dataContainerChat.CurrentConversation != null) {
+        webSocket.send_msg(JSON.stringify({
+          ShutIdR: dataContainerChat.CurrentChat,
+          Message: inputMsg.current.value
+        }));
+        var aux = JSON.parse(sessionStorage.getItem(dataContainerChat.CurrentChat));
+        aux.Messages.push(Message);
+        sessionStorage.setItem(dataContainerChat.CurrentChat, JSON.stringify(aux));
+        setDataContainerChat({ ...dataContainerChat,
+          UpdateChatCard: dataContainerChat.CurrentChat,
+          CurrentConversation: aux.Messages
+        });
+      } else {
+        webSocket.send_msg(JSON.stringify({
+          ShutIdR: dataContainerChat.CurrentChat,
+          Message: inputMsg.current.value
+        }));
+        sessionStorage.setItem(dataContainerChat.CurrentChat, JSON.stringify({
+          Participants: [dataContainerChat.CurrentChat, window.localStorage.getItem("ShutId")],
+          Messages: [Message],
+          data: dataContainerChat.DataCurrentUser
+        }));
+        var conv = dataContainerChat.Conversations;
+        conv.unshift({
+          Participants: [dataContainerChat.CurrentChat, window.localStorage.getItem("ShutId")],
+          Messages: [Message]
+        });
+        setDataContainerChat({ ...dataContainerChat,
+          Conversations: conv,
+          CurrentConversation: [Message],
+          UpdateChatCard: dataContainerChat.CurrentChat
+        });
+      }
     }
 
+    console.log(dataContainerChat);
     inputMsg.current.value = "";
   }
 
@@ -87,7 +112,7 @@ export default function ChatWindowComponent() {
   })))), /*#__PURE__*/React.createElement("div", {
     className: "messagesContainer",
     ref: msgContainer
-  }, queryingDataStatus ? null : dataContainerChat.CurrentConversation.map((element, key) => /*#__PURE__*/React.createElement(MessageCard, {
+  }, queryingDataStatus ? null : dataContainerChat.CurrentConversation == null ? null : dataContainerChat.CurrentConversation.map((element, key) => /*#__PURE__*/React.createElement(MessageCard, {
     msg: element.Message,
     time: parseInt(element.Time.$numberLong),
     transmitter: element.From != dataContainerChat.CurrentChat ? 'Me' : 'Other',

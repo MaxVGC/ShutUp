@@ -9,8 +9,7 @@ async function getFriends() {
 }
 
 export default function SearchFriendComponent({
-  setShowFriends,
-  setCurrentChat
+  setShowFriends
 }) {
   const [queryStatus, setQueryStatus] = React.useState();
   const [value, setValue] = React.useState('');
@@ -58,10 +57,9 @@ export default function SearchFriendComponent({
   })) : /*#__PURE__*/React.createElement("div", {
     ref: ref,
     className: "data-search"
-  }, users.friends.map((element, key) => element.Name.toLowerCase().includes(value) ? /*#__PURE__*/React.createElement(FriendContactCard, {
+  }, users.friends.map((element, key) => element.Name.toLowerCase().includes(value.toLowerCase()) ? /*#__PURE__*/React.createElement(FriendContactCard, {
     data: element,
     key: key,
-    setCurrentChat: setCurrentChat,
     setShowFriends: setShowFriends
   }) : null)))));
 }

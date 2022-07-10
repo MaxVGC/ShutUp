@@ -16,6 +16,7 @@ export function Container_Chat() {
     const [chats, setChats] = React.useState(null);
     const [updateChat, setUpdateChat] = React.useState(null);
     const { dataContainerChat, setDataContainerChat, webSocket } = React.useContext(ContainerContext);
+    const [filter, setFilter] = React.useState('');
 
     React.useEffect(() => {
         if (!dataContainerChat.isOpened) {
@@ -23,47 +24,46 @@ export function Container_Chat() {
                 setChats(myJson);
                 setDataContainerChat({ ...dataContainerChat, isOpened: true, Conversations: myJson.Conversations, TimesOpened: (dataContainerChat.TimesOpened + 1) });
             });
-        } 
+        }
     }, []);
 
-    React.useEffect(()=>{
-        if (dataContainerChat.TimesOpened==1) {
+    React.useEffect(() => {
+        if (dataContainerChat.TimesOpened == 1) {
             setChats(dataContainerChat);
         }
     });
-    
+
 
     return (
-        <ProviderChat value={{ updateChat, setUpdateChat }}>
-            <div className="Container_Chat">
-                <div className="row" style={{ height: '100%', margin: 0, padding: 0 }}>
-                    <div className="col-md-3 chats">
-                        <div className="row header">
-                            <h4>
-                                Chats
-                            </h4>
-                            <ion-icon name="add-circle-outline" onClick={() => (showFriends ? setShowFriends(false) : setShowFriends(true))}></ion-icon>
-                            {showFriends ? <SearchFriendComponent setShowFriends={setShowFriends} setCurrentChat={setCurrentChat} /> : null}
-                        </div>
-                        <div className="row search-chat">
-                            <input type="text" placeholder="Buscar conversacion" />
-                        </div>
-                        <div className="row conversations">
-                            {chats == null ? (
-                                null
-                            ) : (
-                                chats.Conversations.map((element, key) => (
-                                    <ChatCard key={key} data={element} n={key} />
-                                ))
-                            )}
-                        </div>
+        <div className="Container_Chat">
+            <div className="row" style={{ height: '100%', margin: 0, padding: 0 }}>
+                <div className="col-md-3 chats">
+                    <div className="row header">
+                        <h4>
+                            Chats
+                        </h4>
+                        <ion-icon name="add-circle-outline" onClick={() => (showFriends ? setShowFriends(false) : setShowFriends(true))}></ion-icon>
+                        {showFriends ? <SearchFriendComponent setShowFriends={setShowFriends} /> : null}
                     </div>
-                    <div className="col-md-9 chat-window" style={{ padding: 0 }}>
-                        {dataContainerChat.CurrentChat != null ? (<ChatWindowComponent />) : null}
+                    <div className="row search-chat">
+                        <input type="text" placeholder="Buscar conversacion" onChange={(e) => setFilter(e.target.value)} />
+                    </div>
+                    <div className="row conversations">
+                        {chats == null ? (
+                            null
+                        ) : (
+                            chats.Conversations.map((element, key) => (
+                                <ChatCard key={key} data={element} n={key} />
+                            ))
+                        )}
+
                     </div>
                 </div>
+                <div className="col-md-9 chat-window" style={{ padding: 0 }}>
+                    {dataContainerChat.CurrentChat != null ? (<ChatWindowComponent />) : null}
+                </div>
             </div>
-        </ProviderChat>
+        </div>
     );
 }
 export default Container_Chat;

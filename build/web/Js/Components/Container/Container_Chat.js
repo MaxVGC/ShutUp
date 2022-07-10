@@ -19,6 +19,7 @@ export function Container_Chat() {
     setDataContainerChat,
     webSocket
   } = React.useContext(ContainerContext);
+  const [filter, setFilter] = React.useState('');
   React.useEffect(() => {
     if (!dataContainerChat.isOpened) {
       getConversations().then(myJson => {
@@ -36,12 +37,7 @@ export function Container_Chat() {
       setChats(dataContainerChat);
     }
   });
-  return /*#__PURE__*/React.createElement(ProviderChat, {
-    value: {
-      updateChat,
-      setUpdateChat
-    }
-  }, /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     className: "Container_Chat"
   }, /*#__PURE__*/React.createElement("div", {
     className: "row",
@@ -58,13 +54,13 @@ export function Container_Chat() {
     name: "add-circle-outline",
     onClick: () => showFriends ? setShowFriends(false) : setShowFriends(true)
   }), showFriends ? /*#__PURE__*/React.createElement(SearchFriendComponent, {
-    setShowFriends: setShowFriends,
-    setCurrentChat: setCurrentChat
+    setShowFriends: setShowFriends
   }) : null), /*#__PURE__*/React.createElement("div", {
     className: "row search-chat"
   }, /*#__PURE__*/React.createElement("input", {
     type: "text",
-    placeholder: "Buscar conversacion"
+    placeholder: "Buscar conversacion",
+    onChange: e => setFilter(e.target.value)
   })), /*#__PURE__*/React.createElement("div", {
     className: "row conversations"
   }, chats == null ? null : chats.Conversations.map((element, key) => /*#__PURE__*/React.createElement(ChatCard, {
@@ -76,6 +72,6 @@ export function Container_Chat() {
     style: {
       padding: 0
     }
-  }, dataContainerChat.CurrentChat != null ? /*#__PURE__*/React.createElement(ChatWindowComponent, null) : null))));
+  }, dataContainerChat.CurrentChat != null ? /*#__PURE__*/React.createElement(ChatWindowComponent, null) : null)));
 }
 export default Container_Chat;

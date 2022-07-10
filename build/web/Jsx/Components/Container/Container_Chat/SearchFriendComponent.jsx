@@ -9,7 +9,7 @@ async function getFriends() {
     return myJson;
 }
 
-export default function SearchFriendComponent({ setShowFriends,setCurrentChat }) {
+export default function SearchFriendComponent({ setShowFriends}) {
     const [queryStatus, setQueryStatus] = React.useState();
     const [value, setValue] = React.useState('');
 
@@ -43,7 +43,7 @@ export default function SearchFriendComponent({ setShowFriends,setCurrentChat })
                     ) : (
                         <div ref={ref} className="data-search" >
                             {users.friends.map((element, key) => (
-                                element.Name.toLowerCase().includes(value)?<FriendContactCard data={element} key={key} setCurrentChat={setCurrentChat} setShowFriends={setShowFriends}/>:null
+                                element.Name.toLowerCase().includes(value.toLowerCase())?<FriendContactCard data={element} key={key} setShowFriends={setShowFriends}/>:null
                             ))}
 
                         </div>

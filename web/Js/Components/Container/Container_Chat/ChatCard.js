@@ -30,19 +30,19 @@ export function ChatCard({
   }
 
   React.useEffect(() => {
+    var shutid = data.Participants[0] != window.localStorage.getItem("ShutId") ? aux = data.Participants[0] : aux = data.Participants[1];
+    setShutidFriend(shutid);
+
     if (dataContainerChat.UpdateChatCard != null && dataContainerChat.UpdateChatCard == ShutidFriend) {
-      var aux = JSON.parse(sessionStorage.getItem(dataContainerChat.UpdateChatCard)).Messages;
-      var lng = aux.length - 1;
+      var aux = JSON.parse(sessionStorage.getItem(dataContainerChat.UpdateChatCard));
+      var lng = aux.Messages.length - 1;
       setLastMsg(lng);
-      setDate(new Date(parseInt(aux[lng].Time.$numberLong)));
-      setDataUserChatCard({ ...dataUserChatCard,
-        Messages: aux
-      });
+      setDate(new Date(parseInt(aux.Messages[lng].Time.$numberLong)));
+      setDataUserChatCard(aux);
       var x = dataContainerChat.Conversations;
-      x[n].Messages = aux;
+      x[n].Messages = aux.Messages;
       setDataContainerChat({ ...dataContainerChat,
-        UpdateChatCard: null,
-        Conversations: x
+        UpdateChatCard: null
       });
     }
   });
@@ -53,14 +53,14 @@ export function ChatCard({
 
     if (dataContainerChat.TimesOpened == 1 && SSData == null) {
       getDataUser(data.Participants[aux]).then(myJson => {
-        sessionStorage.setItem(data.Participants[aux], JSON.stringify({ ...myJson,
-          ...data
+        sessionStorage.setItem(data.Participants[aux], JSON.stringify({ ...data,
+          data: myJson.data[0]
         }));
-        setDataUserChatCard({ ...myJson,
-          ...data
+        setDataUserChatCard({ ...data,
+          data: myJson.data[0]
         });
-        initializeChatCard({ ...myJson,
-          ...data
+        initializeChatCard({ ...data,
+          data: myJson.data[0]
         });
       });
     } else {
@@ -74,7 +74,7 @@ export function ChatCard({
     className: "chat_card",
     onClick: () => queryingDataStatus ? null : setDataContainerChat({ ...dataContainerChat,
       CurrentChat: ShutidFriend,
-      DataCurrentUser: dataUserChatCard.data[0],
+      DataCurrentUser: dataUserChatCard.data,
       CurrentConversation: dataUserChatCard.Messages
     })
   }, queryingDataStatus ? "xd" : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
@@ -91,7 +91,7 @@ export function ChatCard({
     className: "dataChatCard"
   }, /*#__PURE__*/React.createElement("div", {
     className: "nameChatCard"
-  }, /*#__PURE__*/React.createElement("span", null, dataUserChatCard.data[0].Username)), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("span", null, dataUserChatCard.data.Username)), /*#__PURE__*/React.createElement("div", {
     className: "previewMsgChatCard"
   }, dataUserChatCard.Messages[lastMsg].From == window.localStorage.getItem("ShutId") ? /*#__PURE__*/React.createElement("ion-icon", {
     name: "checkmark-outline",

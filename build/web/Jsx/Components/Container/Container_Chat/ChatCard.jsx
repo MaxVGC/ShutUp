@@ -25,15 +25,17 @@ export function ChatCard({ data,n }) {
     }
 
     React.useEffect(() => {
+        var shutid = data.Participants[0] != window.localStorage.getItem("ShutId") ? (aux = data.Participants[0]) : (aux = data.Participants[1]);
+        setShutidFriend(shutid);
         if (dataContainerChat.UpdateChatCard != null && dataContainerChat.UpdateChatCard == ShutidFriend) {
-            var aux = (JSON.parse(sessionStorage.getItem(dataContainerChat.UpdateChatCard)).Messages);
-            var lng = aux.length - 1;
+            var aux = (JSON.parse(sessionStorage.getItem(dataContainerChat.UpdateChatCard)));
+            var lng = aux.Messages.length - 1;
             setLastMsg(lng);
-            setDate(new Date(parseInt(aux[lng].Time.$numberLong)));
-            setDataUserChatCard({ ...dataUserChatCard, Messages: aux });
+            setDate(new Date(parseInt(aux.Messages[lng].Time.$numberLong)));
+            setDataUserChatCard(aux);
             var x=dataContainerChat.Conversations;
-            x[n].Messages=aux;
-            setDataContainerChat({ ...dataContainerChat, UpdateChatCard: null,Conversations:x });
+            x[n].Messages=aux.Messages;
+            setDataContainerChat({ ...dataContainerChat, UpdateChatCard: null });
         }
     });
 
@@ -44,9 +46,9 @@ export function ChatCard({ data,n }) {
         //Quitar SSData==null para actualizar cada vez que se inicia
         if (dataContainerChat.TimesOpened == 1 && SSData == null) {
             getDataUser(data.Participants[aux]).then(myJson => {
-                sessionStorage.setItem(data.Participants[aux], JSON.stringify({ ...myJson, ...data }))
-                setDataUserChatCard({ ...myJson, ...data });
-                initializeChatCard({ ...myJson, ...data });
+                sessionStorage.setItem(data.Participants[aux], JSON.stringify({  ...data,data:myJson.data[0] }))
+                setDataUserChatCard({  ...data,data:myJson.data[0] });
+                initializeChatCard({  ...data,data:myJson.data[0] });
             });
         } else {
             setDataUserChatCard(SSData);
@@ -57,7 +59,7 @@ export function ChatCard({ data,n }) {
     }, []);
 
     return (
-        <div className="chat_card" onClick={() => (queryingDataStatus ? null : (setDataContainerChat({ ...dataContainerChat, CurrentChat: ShutidFriend, DataCurrentUser: dataUserChatCard.data[0], CurrentConversation: dataUserChatCard.Messages })))}>
+        <div className="chat_card" onClick={() => (queryingDataStatus ? null : (setDataContainerChat({ ...dataContainerChat, CurrentChat: ShutidFriend, DataCurrentUser: dataUserChatCard.data, CurrentConversation: dataUserChatCard.Messages })))}>
             {queryingDataStatus ? ("xd") : (
                 <>
                     <div className="imgProfile" style={{ display: 'flex', alignItems: 'center', paddingRight: '10px' }}>
@@ -65,7 +67,7 @@ export function ChatCard({ data,n }) {
                     </div>
                     <div className="dataChatCard">
                         <div className="nameChatCard">
-                            <span>{dataUserChatCard.data[0].Username}</span>
+                            <span>{dataUserChatCard.data.Username}</span>
                         </div>
                         <div className="previewMsgChatCard">
                             {dataUserChatCard.Messages[lastMsg].From == window.localStorage.getItem("ShutId") ? (<ion-icon name="checkmark-outline" style={{ marginRight: '5px' }}></ion-icon>) : (null)}

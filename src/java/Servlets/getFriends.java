@@ -42,9 +42,9 @@ public class getFriends extends HttpServlet {
             String amount = request.getParameter("amount");
             String friends;
             if (amount.equals("all")) {
-                friends = "select u.\"ShutId\",u.\"Name\", u.\"Lastname\", s.\"CurrentState\" from public.\"Users\" as u, public.\"Friends\" as f, public.\"State\" as s where s.\"ShutId\"=u.\"ShutId\" and (u.\"ShutId\"=f.\"ShutId_1\" or u.\"ShutId\"=f.\"ShutId_2\") and f.\"AcceptedRequest\"=true and u.\"ShutId\"!='" + shutid + "' order by u.\"Name\" asc";
+                friends = "select u.\"ShutId\",u.\"Username\",u.\"Name\",u.\"Lastname\",u.\"Email\",u.\"PhoneNumber\",s.\"CurrentState\",s.\"LastUpdate\" from public.\"Users\" as u, public.\"Friends\" as f, public.\"State\" as s where s.\"ShutId\"=u.\"ShutId\" and (u.\"ShutId\"=f.\"ShutId_1\" or u.\"ShutId\"=f.\"ShutId_2\") and f.\"AcceptedRequest\"=true and u.\"ShutId\"!='" + shutid + "' order by u.\"Name\" asc";
             } else {
-                friends = "select u.\"ShutId\",u.\"Name\", u.\"Lastname\", s.\"CurrentState\" from public.\"Users\" as u, public.\"Friends\" as f, public.\"State\" as s where s.\"ShutId\"=u.\"ShutId\" and (u.\"ShutId\"=f.\"ShutId_1\" or u.\"ShutId\"=f.\"ShutId_2\") and f.\"AcceptedRequest\"=true and u.\"ShutId\"!='" + shutid + "' order by u.\"Name\" asc limit "+amount+"";
+                friends = "select u.\"ShutId\",u.\"Username\",u.\"Name\",u.\"Lastname\",u.\"Email\",u.\"PhoneNumber\",s.\"CurrentState\",s.\"LastUpdate\" from public.\"Users\" as u, public.\"Friends\" as f, public.\"State\" as s where s.\"ShutId\"=u.\"ShutId\" and (u.\"ShutId\"=f.\"ShutId_1\" or u.\"ShutId\"=f.\"ShutId_2\") and f.\"AcceptedRequest\"=true and u.\"ShutId\"!='" + shutid + "' order by u.\"Name\" asc limit "+amount+"";
             }
             friends = sql.replace("sql", friends);
             ResultSet res1 = pDB.executeQuery(friends);
