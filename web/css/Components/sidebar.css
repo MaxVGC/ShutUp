@@ -87,31 +87,3 @@ ul li:nth-child(4).active~#marker::before {
     background: greenyellow;
     box-shadow: 0 0 15px greenyellow, 0 0 30px greenyellow;
 }
-
-@media (max-height:490px) {
-    .sidebar-custom .sidebar-logo,
-    .sidebar-custom .sidebar-logout {
-        display: none;
-    }
-}
-
-@media (orientation:portrait) {
-    .sidebar-buttons {
-        height: 50px!important;
-        width: calc(100% - 100px)!important;
-    }
-    .sidebar-custom {
-        flex-direction: row!important;
-        overflow-y: hidden;
-    }
-    .sidebar-custom .sidebar-logo,
-    .sidebar-custom .sidebar-logout {
-        height: 50px;
-        width: 50px;
-    }
-    ul li {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-}

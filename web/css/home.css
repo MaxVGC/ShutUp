@@ -1,5 +1,6 @@
 @import url(./Components/sidebar.css);
 @import url(./Components/Container/Container.css);
+@import url(./Components/Container/Container_Call.css);
 * {
     margin: 0;
     padding: 0;
@@ -27,20 +28,4 @@ a:hover {
     align-items: center;
     width: 80px;
     z-index: 1;
-}
-
-@media (orientation:portrait) {
-    .sidebar-custom {
-        height: 50px;
-        width: 100%;
-        border-right: solid 0px #1d1d1d;
-        border-top: solid 1px #1d1d1d;
-        bottom: 0;
-    }
-    .sidebar-custom ul {
-        display: flex;
-    }
-    .sidebar-custom ul li {
-        margin: 0px 15px;
-    }
 }

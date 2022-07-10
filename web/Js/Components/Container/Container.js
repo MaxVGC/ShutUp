@@ -2,6 +2,7 @@ import Context from '../../Context.js';
 import { ProviderContainer } from './ContainerContext.js';
 import Container_Home from './Container_Home.js';
 import Container_Chat from './Container_Chat.js';
+import Container_Call from './Container_Call.js';
 import initWebSocket from './../../WebSocket.js';
 var prevData;
 
@@ -25,16 +26,16 @@ export function Container() {
     DataCurrentUser: null,
     CurrentConversation: null,
     UpdateChatCard: null
-  });
-  const webSocket = initWebSocket();
+  }); //const webSocket = initWebSocket();
+
+  const webSocket = {
+    onChangeData: null
+  };
   React.useEffect(() => {
     if (webSocket.onChangeData != null && prevData != webSocket.onChangeData) {
       prevData = webSocket.onChangeData;
-      console.log(prevData);
-      console.log(container);
 
       if (prevData.Type == "Message" && dataContainerChat.Conversations != null && container.value == "chatbubbles") {
-        console.log("caso 1");
         var aux = JSON.parse(sessionStorage.getItem(prevData.Payload.From));
 
         if (aux != null) {
@@ -60,7 +61,6 @@ export function Container() {
           }
         }
       } else if (prevData.Type == "Message" && dataContainerChat.Conversations != null && container.value != "chatbubbles") {
-        console.log("caso 2");
         var aux = JSON.parse(sessionStorage.getItem(prevData.Payload.From));
         aux.Messages.push({
           Message: prevData.Payload.Message,
@@ -90,14 +90,12 @@ export function Container() {
           });
         }
       } else if ((prevData.Type == "NewMessage" || prevData.Type == "Message") && dataContainerChat.Conversations == null) {
-        console.log("caso 3");
         getConversations("none").then(myJson => {
           setDataContainerChat({ ...dataContainerChat,
             Conversations: myJson.Conversations
           });
         });
       } else if (prevData.Type == "NewMessage" && dataContainerChat.Conversations != null) {
-        console.log("caso 4");
         getConversations(prevData.Payload.From).then(myJson => {
           sessionStorage.setItem(prevData.Payload.From, JSON.stringify(myJson.Conversations[0]));
           var conv = dataContainerChat.Conversations;
@@ -120,6 +118,6 @@ export function Container() {
     }
   }, /*#__PURE__*/React.createElement("div", {
     className: "Container_Main"
-  }, container.value === "home" && /*#__PURE__*/React.createElement(Container_Home, null), container.value === "chatbubbles" && /*#__PURE__*/React.createElement(Container_Chat, null), container.value === "call" && /*#__PURE__*/React.createElement(Container_Home, null), container.value === "accessibility" && /*#__PURE__*/React.createElement(Container_Home, null)));
+  }, container.value === "home" && /*#__PURE__*/React.createElement(Container_Home, null), container.value === "chatbubbles" && /*#__PURE__*/React.createElement(Container_Chat, null), container.value === "call" && /*#__PURE__*/React.createElement(Container_Call, null), container.value === "accessibility" && /*#__PURE__*/React.createElement(Container_Home, null)));
 }
 export default Container;

@@ -1,0 +1,56 @@
+.ContainerCall {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.AllScreen {
+    width: 100%;
+    height: 100%;
+}
+
+.W100 {
+    width: 100%;
+}
+
+.H100 {
+    height: 100%;
+}
+
+.PrincipalScreen {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    gap: 10px;
+    display: flex;
+}
+
+.Screens {
+    width: calc(50% - 5px);
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.LocalScreen {}
+
+.RemoteScreen {}
+
+.VideoControls {
+    height: 100px;
+    background-color: #222222;
+    position: relative;
+    border-radius: 12px;
+}
+
+.Video {
+    background-color: #222222;
+    border: none;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 12px;
+}

@@ -927,15 +927,6 @@ body {
     text-align: center;
 }
 
-@media (orientation:portrait) {
-    .Container_Main {
-        position: absolute;
-        height: calc(100% - 50px);
-        width: 100%;
-        left: 0px;
-    }
-}
-
 @supports(mix-blend-mode: screen) {
     .Container_Chat .ChatWindowComponent .main .messagesContainer .msgCardContainer.Me .msgCard {
         background: blue;
