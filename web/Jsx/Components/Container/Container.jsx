@@ -28,8 +28,7 @@ export function Container() {
             UpdateChatCard: null
         }
     );
-    const videoCall = VideoCall();
-
+    
     //const webSocket = initWebSocket();
     
     const webSocket = {

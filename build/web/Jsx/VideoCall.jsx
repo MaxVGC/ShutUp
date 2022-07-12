@@ -27,11 +27,9 @@ function VideoCall() {
             }
         });
         room.on('members', members => {
-            if (typeof localVideo != 'undefined') {
-                console.log('MEMBERS', members);
-                const isOfferer = members.length === 2;
-                startWebRTC(isOfferer);
-            }
+            console.log('MEMBERS', members);
+            const isOfferer = members.length === 2;
+            startWebRTC(isOfferer);
         });
     });
 
@@ -74,11 +72,9 @@ function VideoCall() {
             audio: true,
             video: true,
         }).then(stream => {
-            if (typeof localVideo != 'undefined') {
-                console.log("Xd");
-                localVideo.srcObject = stream;
-                stream.getTracks().forEach(track => pc.addTrack(track, stream));
-            }
+            console.log("Xd");
+            localVideo.srcObject = stream;
+            stream.getTracks().forEach(track => pc.addTrack(track, stream));
         }, onError);
 
         room.on('data', (message, client) => {
@@ -112,7 +108,11 @@ function VideoCall() {
         localVideo.srcObject.getVideoTracks().forEach(track => track.enabled = !track.enabled);
     }
 
-    return { startWebRTC, toogleVideo };
+    function toogleMic() {
+        localVideo.srcObject.getAudioTracks().forEach(track => track.enabled = !track.enabled);
+    }
+
+    return { startWebRTC, toogleVideo, toogleMic };
 }
 
 export default VideoCall;

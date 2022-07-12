@@ -1,7 +1,7 @@
-//import VideoCall from './../../VideoCall.js';
+import VideoCall from './../../VideoCall.js';
 
 export default function Container_Call() {
-  //  const videoCall = VideoCall();
+    const videoCall = VideoCall();
 
     return (
         <div className={"ContainerCall" + " AllScreen"} style={{ margin: 0, padding: 10 }}>

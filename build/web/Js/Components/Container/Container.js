@@ -27,8 +27,7 @@ export function Container() {
     DataCurrentUser: null,
     CurrentConversation: null,
     UpdateChatCard: null
-  });
-  const videoCall = VideoCall(); //const webSocket = initWebSocket();
+  }); //const webSocket = initWebSocket();
 
   const webSocket = {
     onChangeData: null
