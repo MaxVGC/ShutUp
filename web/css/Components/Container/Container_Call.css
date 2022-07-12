@@ -38,6 +38,10 @@
 
 .LocalScreen {}
 
+.Screens .Video video {
+    max-width: 100%;
+}
+
 .RemoteScreen {}
 
 .VideoControls {
@@ -53,4 +57,5 @@
     width: 100%;
     aspect-ratio: 16 / 9;
     border-radius: 12px;
+    overflow: hidden;
 }

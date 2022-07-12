@@ -4,6 +4,7 @@ import Container_Home from './Container_Home.js';
 import Container_Chat from './Container_Chat.js';
 import Container_Call from './Container_Call.js'
 import initWebSocket from './../../WebSocket.js';
+import VideoCall from './../../VideoCall.js';
 
 var prevData;
 
@@ -27,7 +28,10 @@ export function Container() {
             UpdateChatCard: null
         }
     );
+    const videoCall = VideoCall();
+
     //const webSocket = initWebSocket();
+    
     const webSocket = {
         onChangeData:null
     };
